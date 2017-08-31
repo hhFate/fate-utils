@@ -31,6 +31,32 @@ public class JHUtil {
     }
 
     /**
+     * 通用短信发送接口
+     * @param mobile 手机号
+     * @param tplValue 模版
+     * @param key 聚合key
+     * @param templeteId 模版id
+     * @return
+     */
+    public static JuheResponse sendCommonSms(String mobile, String tplValue, String key, int templeteId) {
+        List<NameValuePair> pair = new ArrayList<>();
+        pair.add(new BasicNameValuePair("mobile", mobile));
+        pair.add(new BasicNameValuePair("tpl_id", Integer.toString(templeteId)));
+        pair.add(new BasicNameValuePair("tpl_value", tplValue));
+        pair.add(new BasicNameValuePair("key", key));
+
+        String result = HttpClientUtil.post("http://v.juhe.cn/sms/send", pair).getResult();
+        Gson gson = new Gson();
+        JuheResponse response = gson.fromJson(result, JuheResponse.class);
+
+        Sms sms = gson.fromJson(gson.toJson(response.getResult()), Sms.class);
+
+        response.setSms(sms);
+
+        return response;
+    }
+
+    /**
      * 短信发送
      *
      * @param mobile     手机号
@@ -40,22 +66,7 @@ public class JHUtil {
      * @return 错误码
      */
     public static JuheResponse sendSms(String mobile, String code, int timeout, String key, int templeteId) {
-        List<NameValuePair> pair = new ArrayList<>();
-        pair.add(new BasicNameValuePair("mobile", mobile));
-        pair.add(new BasicNameValuePair("tpl_id", Integer.toString(templeteId)));
-        pair.add(new BasicNameValuePair("tpl_value", "#code#=" + code + "&#hour#=" + timeout));
-        pair.add(new BasicNameValuePair("key", key));
-
-        String result = HttpClientUtil.post("http://v.juhe.cn/sms/send", pair).getResult();
-        Gson gson = new Gson();
-
-        JuheResponse response = gson.fromJson(result, JuheResponse.class);
-
-        Sms sms = gson.fromJson(gson.toJson(response.getResult()), Sms.class);
-
-        response.setSms(sms);
-
-        return response;
+        return sendCommonSms(mobile, "#code#=" + code + "&#hour#=" + timeout, key, templeteId);
     }
 
     /**
@@ -68,21 +79,8 @@ public class JHUtil {
      * @param templeteId 短信模版id
      * @return 错误码
      */
-    public static Sms sendCommentSms(String mobile, String title, String content, String key, int templeteId) {
-        List<NameValuePair> pair = new ArrayList<>();
-        pair.add(new BasicNameValuePair("mobile", mobile));
-        pair.add(new BasicNameValuePair("tpl_id", Integer.toString(templeteId)));
-        pair.add(new BasicNameValuePair("tpl_value", "#title#=" + title + "&#content#=" + content));
-        pair.add(new BasicNameValuePair("key", key));
-
-        String result = HttpClientUtil.post("http://v.juhe.cn/sms/send", pair).getResult();
-        Gson gson = new Gson();
-        JuheResponse response = gson.fromJson(result, JuheResponse.class);
-
-        Sms sms = gson.fromJson(gson.toJson(response.getResult()), Sms.class);
-
-        response.setSms(sms);
-        return sms;
+    public static JuheResponse sendCommentSms(String mobile, String title, String content, String key, int templeteId) {
+        return sendCommonSms(mobile, "#title#=" + title + "&#content#=" + content, key, templeteId);
     }
 
     /**
@@ -94,21 +92,8 @@ public class JHUtil {
      * @param templeteId
      * @return
      */
-    public static Sms sendFriendLinkSms(String mobile, String site, String key, int templeteId) {
-        List<NameValuePair> pair = new ArrayList<>();
-        pair.add(new BasicNameValuePair("mobile", mobile));
-        pair.add(new BasicNameValuePair("tpl_id", Integer.toString(templeteId)));
-        pair.add(new BasicNameValuePair("tpl_value", "#site#=" + site));
-        pair.add(new BasicNameValuePair("key", key));
-
-        String result = HttpClientUtil.post("http://v.juhe.cn/sms/send", pair).getResult();
-        Gson gson = new Gson();
-        JuheResponse response = gson.fromJson(result, JuheResponse.class);
-
-        Sms sms = gson.fromJson(gson.toJson(response.getResult()), Sms.class);
-
-        response.setSms(sms);
-        return sms;
+    public static JuheResponse sendFriendLinkSms(String mobile, String site, String key, int templeteId) {
+        return sendCommonSms(mobile, "#site#=" + site, key, templeteId);
     }
 
 
