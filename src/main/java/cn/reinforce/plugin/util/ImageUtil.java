@@ -31,14 +31,21 @@ import com.mortennobel.imagescaling.ResampleOp;
  * 图片处理工具类：
  * 功能：缩放图像、切割图像、图像类型转换、彩色转黑白、文字水印、图片水印等
  *
+ * 依赖：
+ * <dependency>
+ * <groupId>com.mortennobel</groupId>
+ * <artifactId>java-image-scaling</artifactId>
+ * <version>0.8.6</version>
+ * </dependency>
+ *
  * @author 幻幻Fate
  * @create 2016-09-06
  * @since 1.0.0
  *
  */
-public class ImageUtils {
+public class ImageUtil {
 
-    private static final Logger log = Logger.getLogger(ImageUtils.class);
+    private static final Logger log = Logger.getLogger(ImageUtil.class);
     
 	/**
 	 * 几种常见的图片格式
@@ -50,7 +57,7 @@ public class ImageUtils {
 	public static final String IMAGE_TYPE_PNG = "png";// 可移植网络图形
 	public static final String IMAGE_TYPE_PSD = "psd";// Photoshop的专用格式Photoshop
 
-	private ImageUtils() {
+	private ImageUtil() {
         super();
     }
 
@@ -63,6 +70,14 @@ public class ImageUtils {
     	return IMAGE_TYPE_BMP.equals(type)||IMAGE_TYPE_JPG.equals(type)||IMAGE_TYPE_JPEG.equals(type)||IMAGE_TYPE_GIF.equals(type)||IMAGE_TYPE_PNG.equals(type);
 	}
 
+	/**
+	 * 重新设置图片大小
+	 * @param originalFile
+	 * @param resizedFile
+	 * @param newWidth
+	 * @param newHeight
+	 * @param quality
+	 */
     public static void resize(File originalFile, File resizedFile,
 			int newWidth, int newHeight, float quality) {
 		try {
@@ -97,7 +112,6 @@ public class ImageUtils {
 			int width, int height) {
 		ImageInputStream iis = null;
 		try {
-
 			iis = ImageIO.createImageInputStream(srcImageFile);
 			Iterator<ImageReader> iterator = ImageIO.getImageReaders(iis);
 			ImageReader reader = (ImageReader) iterator.next();

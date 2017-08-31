@@ -23,11 +23,11 @@ import java.util.List;
  * @create 2016-09-06
  * @since 1.0.0
  */
-public class JHUtils {
+public class JHUtil {
 
-    private static Logger LOG = Logger.getLogger(JHUtils.class);
+    private static Logger LOG = Logger.getLogger(JHUtil.class);
 
-    private JHUtils() {
+    private JHUtil() {
     }
 
     /**

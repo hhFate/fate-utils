@@ -21,14 +21,14 @@ import org.dom4j.Element;
  * @create 2016-09-06
  * @since 1.0.0
  */
-public class PingUtils {
+public class PingUtil {
 
 	private static final String[] RPCs = {
 	 "http://blogsearch.google.com/ping/RPC2",
 	// "http://ping.blog.qikoo.com/rpc2.php",
 	"http://ping.baidu.com/ping/RPC2" };
 
-	private PingUtils() {
+	private PingUtil() {
     }
 
     /**

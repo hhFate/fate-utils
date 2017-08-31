@@ -196,7 +196,7 @@ public class HttpClientUtil {
     public static String downloadImg(String url, String folder, String downloadUrl) {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String fileType = url.substring(url.lastIndexOf(".") + 1);
-        if (StringUtils.isEmpty(fileType) || !ImageUtils.isImage(fileType)) {
+        if (StringUtils.isEmpty(fileType) || !ImageUtil.isImage(fileType)) {
             fileType = "jpg";
         }
         fileType = "." + fileType;
