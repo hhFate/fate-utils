@@ -2,6 +2,7 @@ package cn.reinforce.plugin.util;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -9,6 +10,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -23,12 +25,11 @@ import org.dom4j.Element;
  */
 public class PingUtil {
 
-	private static final String[] RPCs = {
-	 "http://blogsearch.google.com/ping/RPC2",
-	// "http://ping.blog.qikoo.com/rpc2.php",
-	"http://ping.baidu.com/ping/RPC2" };
+	private static final Logger LOG = Logger.getLogger(PingUtil.class);
+
 
 	private PingUtil() {
+		super();
     }
 
     /**
@@ -103,17 +104,18 @@ public class PingUtil {
 			Document document = DocumentHelper.parseText(ret.trim());
 			root = document.getRootElement();
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("网络协议错误", e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("内容读取失败", e);
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("内容读取失败", e);
 		}
-		
-		return root.element("params").element("param").element("value").element("int").getText().equals("0")?true:false;
+
+		if(root==null){
+			return false;
+		}
+
+		return StringUtils.equals("0", root.element("params").element("param").element("value").element("int").getText());
 	}
 
 }

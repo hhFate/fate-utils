@@ -9,6 +9,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class EmojiUtil {
 
+    private EmojiUtil() {
+        super();
+    }
+
     /**
      * 字符串中是否包含Emoji表情
      * @param source

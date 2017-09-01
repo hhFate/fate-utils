@@ -23,7 +23,7 @@ public class ChatPushView {
 	 * 推送通知的内容
 	 */
 	@Expose
-	private String Content;
+	private String content;
 
 	/**
 	 * 推送时间
@@ -44,15 +44,19 @@ public class ChatPushView {
 	private String headIcon;
 
 	public String getContent() {
-		return Content;
+		return content;
 	}
 
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 
 	public Date getPushTime() {
 		return pushTime;
+	}
+
+	public void setPushTime(Date pushTime) {
+		this.pushTime = pushTime;
 	}
 
 	public String getUsername() {
