@@ -35,7 +35,7 @@ import java.util.Iterator;
  */
 public class ImageUtil {
 
-    private static final Logger log = Logger.getLogger(ImageUtil.class);
+    private static final Logger LOG = Logger.getLogger(ImageUtil.class);
 
     /**
      * 几种常见的图片格式
@@ -77,7 +77,7 @@ public class ImageUtil {
             BufferedImage rescaledTomato = resampleOp.filter(inputBufImage, null);
             ImageIO.write(rescaledTomato, IMAGE_TYPE_PNG, resizedFile);
         } catch (IOException e) {
-            log.error("图片操作失败", e);
+            LOG.error("图片操作失败", e);
         }
     }
 
@@ -105,13 +105,13 @@ public class ImageUtil {
             BufferedImage bi = reader.read(0, param);
             ImageIO.write(bi, IMAGE_TYPE_PNG, result);
         } catch (Exception e) {
-            log.error("图片操作失败", e);
+            LOG.error("图片操作失败", e);
         } finally {
             if (iis != null) {
                 try {
                     iis.close();
                 } catch (IOException e) {
-                    log.error("文件关闭失败", e);
+                    LOG.error("文件关闭失败", e);
                 }
             }
         }
@@ -141,7 +141,7 @@ public class ImageUtil {
         try {
             bi = ImageIO.read(new File(srcImageFile));
         } catch (IOException e) {
-            log.error("图片读取失败", e);
+            LOG.error("图片读取失败", e);
         }
         int srcWidth = bi.getHeight(); // 源图宽度
         int srcHeight = bi.getWidth(); // 源图高度
@@ -181,7 +181,7 @@ public class ImageUtil {
                     try {
                         ImageIO.write(tag, "JPEG", new File(descDir + "_r" + i + "_c" + j + ".jpg"));
                     } catch (IOException e) {
-                        log.error("图片写入失败", e);
+                        LOG.error("图片写入失败", e);
                     }
                 }
             }
@@ -204,7 +204,7 @@ public class ImageUtil {
             BufferedImage src = ImageIO.read(f);
             ImageIO.write(src, formatName, new File(destImageFile));
         } catch (Exception e) {
-            log.error("图片操作失败", e);
+            LOG.error("图片操作失败", e);
         }
     }
 
@@ -222,7 +222,7 @@ public class ImageUtil {
             src = op.filter(src, null);
             ImageIO.write(src, "JPEG", new File(destImageFile));
         } catch (IOException e) {
-            log.error("图片操作失败", e);
+            LOG.error("图片操作失败", e);
         }
     }
 
@@ -276,7 +276,7 @@ public class ImageUtil {
             g.dispose();
             ImageIO.write(bufferedImage, IMAGE_TYPE_JPG, file);
         } catch (Exception e) {
-            log.error("图片操作失败", e);
+            LOG.error("图片操作失败", e);
         }
     }
 
@@ -323,7 +323,7 @@ public class ImageUtil {
             g.dispose();
             ImageIO.write(bufferedImage, IMAGE_TYPE_JPG, file);
         } catch (IOException e) {
-            log.error("图片操作失败", e);
+            LOG.error("图片操作失败", e);
         }
     }
 

@@ -1,5 +1,7 @@
 package cn.reinforce.plugin.util.juhe.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Weather {
 
     private Sk sk;
@@ -22,6 +24,13 @@ public class Weather {
         this.today = today;
     }
 
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "sk=" + sk +
+                ", today=" + today +
+                '}';
+    }
 
     public class Sk {
         /**
@@ -88,12 +97,24 @@ public class Weather {
         public void setTime(String time) {
             this.time = time;
         }
+
+        @Override
+        public String toString() {
+            return "Sk{" +
+                    "temp='" + temp + '\'' +
+                    ", windDirection='" + windDirection + '\'' +
+                    ", windStrength='" + windStrength + '\'' +
+                    ", humidity='" + humidity + '\'' +
+                    ", time='" + time + '\'' +
+                    '}';
+        }
     }
 
     public class Today {
         private String city;
 
-        private String date_y;
+        @SerializedName("date_y")
+        private String dateY;
 
         private String week;
 
@@ -103,21 +124,29 @@ public class Weather {
 
         private String wind;
 
-        private String dressing_index;
+        @SerializedName("dressing_index")
+        private String dressingIndex;
 
-        private String dressing_advice;
+        @SerializedName("dressing_advice")
+        private String dressingAdvice;
 
-        private String uv_index;
+        @SerializedName("uv_index")
+        private String uvIndex;
 
-        private String comfort_index;
+        @SerializedName("comfort_index")
+        private String comfortIndex;
 
-        private String wash_index;
+        @SerializedName("wash_index")
+        private String washIndex;
 
-        private String travel_index;
+        @SerializedName("travel_index")
+        private String travelIndex;
 
-        private String exercise_index;
+        @SerializedName("exercise_index")
+        private String exerciseIndex;
 
-        private String drying_index;
+        @SerializedName("drying_index")
+        private String dryingIndex;
 
         public String getCity() {
             return city;
@@ -127,12 +156,12 @@ public class Weather {
             this.city = city;
         }
 
-        public String getDate_y() {
-            return date_y;
+        public String getDateY() {
+            return dateY;
         }
 
-        public void setDate_y(String date_y) {
-            this.date_y = date_y;
+        public void setDateY(String dateY) {
+            this.dateY = dateY;
         }
 
         public String getWeek() {
@@ -167,70 +196,88 @@ public class Weather {
             this.wind = wind;
         }
 
-        public String getDressing_index() {
-            return dressing_index;
+        public String getDressingIndex() {
+            return dressingIndex;
         }
 
-        public void setDressing_index(String dressing_index) {
-            this.dressing_index = dressing_index;
+        public void setDressingIndex(String dressingIndex) {
+            this.dressingIndex = dressingIndex;
         }
 
-        public String getDressing_advice() {
-            return dressing_advice;
+        public String getDressingAdvice() {
+            return dressingAdvice;
         }
 
-        public void setDressing_advice(String dressing_advice) {
-            this.dressing_advice = dressing_advice;
+        public void setDressingAdvice(String dressingAdvice) {
+            this.dressingAdvice = dressingAdvice;
         }
 
-        public String getUv_index() {
-            return uv_index;
+        public String getUvIndex() {
+            return uvIndex;
         }
 
-        public void setUv_index(String uv_index) {
-            this.uv_index = uv_index;
+        public void setUvIndex(String uvIndex) {
+            this.uvIndex = uvIndex;
         }
 
-        public String getComfort_index() {
-            return comfort_index;
+        public String getComfortIndex() {
+            return comfortIndex;
         }
 
-        public void setComfort_index(String comfort_index) {
-            this.comfort_index = comfort_index;
+        public void setComfortIndex(String comfortIndex) {
+            this.comfortIndex = comfortIndex;
         }
 
-        public String getWash_index() {
-            return wash_index;
+        public String getWashIndex() {
+            return washIndex;
         }
 
-        public void setWash_index(String wash_index) {
-            this.wash_index = wash_index;
+        public void setWashIndex(String washIndex) {
+            this.washIndex = washIndex;
         }
 
-        public String getTravel_index() {
-            return travel_index;
+        public String getTravelIndex() {
+            return travelIndex;
         }
 
-        public void setTravel_index(String travel_index) {
-            this.travel_index = travel_index;
+        public void setTravelIndex(String travelIndex) {
+            this.travelIndex = travelIndex;
         }
 
-        public String getExercise_index() {
-            return exercise_index;
+        public String getExerciseIndex() {
+            return exerciseIndex;
         }
 
-        public void setExercise_index(String exercise_index) {
-            this.exercise_index = exercise_index;
+        public void setExerciseIndex(String exerciseIndex) {
+            this.exerciseIndex = exerciseIndex;
         }
 
-        public String getDrying_index() {
-            return drying_index;
+        public String getDryingIndex() {
+            return dryingIndex;
         }
 
-        public void setDrying_index(String drying_index) {
-            this.drying_index = drying_index;
+        public void setDryingIndex(String dryingIndex) {
+            this.dryingIndex = dryingIndex;
         }
 
-
+        @Override
+        public String toString() {
+            return "Today{" +
+                    "city='" + city + '\'' +
+                    ", dateY='" + dateY + '\'' +
+                    ", week='" + week + '\'' +
+                    ", temperature='" + temperature + '\'' +
+                    ", weather='" + weather + '\'' +
+                    ", wind='" + wind + '\'' +
+                    ", dressingIndex='" + dressingIndex + '\'' +
+                    ", dressingAdvice='" + dressingAdvice + '\'' +
+                    ", uvIndex='" + uvIndex + '\'' +
+                    ", comfortIndex='" + comfortIndex + '\'' +
+                    ", washIndex='" + washIndex + '\'' +
+                    ", travelIndex='" + travelIndex + '\'' +
+                    ", exerciseIndex='" + exerciseIndex + '\'' +
+                    ", dryingIndex='" + dryingIndex + '\'' +
+                    '}';
+        }
     }
 }

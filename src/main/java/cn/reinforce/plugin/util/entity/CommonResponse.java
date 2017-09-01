@@ -1,6 +1,7 @@
 package cn.reinforce.plugin.util.entity;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class CommonResponse {
 
@@ -8,7 +9,8 @@ public class CommonResponse {
 	public boolean success;
 	
 	@Expose
-	public int error_code;
+	@SerializedName("error_code")
+	public int errorCode;
 	
 	@Expose
 	public String msg;
@@ -21,12 +23,12 @@ public class CommonResponse {
 		this.success = success;
 	}
 
-	public int getError_code() {
-		return error_code;
+	public int getErrorCode() {
+		return errorCode;
 	}
 
-	public void setError_code(int error_code) {
-		this.error_code = error_code;
+	public void setErrorCode(int errorCode) {
+		this.errorCode = errorCode;
 	}
 
 	public String getMsg() {

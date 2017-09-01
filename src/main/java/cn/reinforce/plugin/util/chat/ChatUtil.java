@@ -47,7 +47,6 @@ public class ChatUtil {
 		pairs.add(new BasicNameValuePair("appSecret", appSecret));
 		String result = HttpClientUtil.post(endpoint+"op/syn/dept", pairs).getResult();
 		Gson gson = GsonUtil.getGson();
-		System.out.println(result);
 		return gson.fromJson(result, CommonResponse.class);
 	}
 
@@ -81,7 +80,6 @@ public class ChatUtil {
 		pairs.add(new BasicNameValuePair("appSecret", appSecret));
 		String result = HttpClientUtil.post(endpoint+"op/syn/user", pairs).getResult();
 		Gson gson = GsonUtil.getGson();
-		System.out.println(result);
 		return gson.fromJson(result, CommonResponse.class);
 	}
 
@@ -126,7 +124,6 @@ public class ChatUtil {
 		pairs.add(new BasicNameValuePair("password", password));
 		pairs.add(new BasicNameValuePair("appSecret", appSecret));
 		String result = HttpClientUtil.put(endpoint+"op/syn/user/password/"+uid, pairs).getResult();
-		System.out.println(result);
 		Gson gson = GsonUtil.getGson();
 		return gson.fromJson(result, CommonResponse.class);
 	}

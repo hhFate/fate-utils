@@ -174,7 +174,7 @@ public class Line {
         }
     }
 
-    public class MarkLine{
+    public class MarkLine {
         private List<MarkLineData> data = new ArrayList<>();
 
         public List<MarkLineData> getData() {
@@ -186,7 +186,7 @@ public class Line {
         }
     }
 
-    public class MarkLineData{
+    public class MarkLineData {
         private String type;
 
         private int yAxis;

@@ -1,11 +1,11 @@
 package cn.reinforce.plugin.util.juhe;
 
+import cn.reinforce.plugin.util.GsonUtil;
 import cn.reinforce.plugin.util.HttpClientUtil;
+import cn.reinforce.plugin.util.juhe.entity.IP;
 import cn.reinforce.plugin.util.juhe.entity.JuheResponse;
 import cn.reinforce.plugin.util.juhe.entity.Mobile;
 import cn.reinforce.plugin.util.juhe.entity.Sms;
-import cn.reinforce.plugin.util.GsonUtil;
-import cn.reinforce.plugin.util.juhe.entity.IP;
 import cn.reinforce.plugin.util.juhe.entity.Weather;
 import com.google.gson.Gson;
 import org.apache.http.NameValuePair;
@@ -25,16 +25,16 @@ import java.util.List;
  */
 public class JHUtil {
 
-    private static Logger LOG = Logger.getLogger(JHUtil.class);
-
     private JHUtil() {
+        super();
     }
 
     /**
      * 通用短信发送接口
-     * @param mobile 手机号
-     * @param tplValue 模版
-     * @param key 聚合key
+     *
+     * @param mobile     手机号
+     * @param tplValue   模版
+     * @param key        聚合key
      * @param templeteId 模版id
      * @return
      */
@@ -152,27 +152,25 @@ public class JHUtil {
         JuheResponse response = gson.fromJson(result, JuheResponse.class);
 
         IP ip1 = gson.fromJson(gson.toJson(response.getResult()), IP.class);
-        System.out.println(ip1);
+
         response.setIp(ip1);
         return response;
     }
 
     /**
      * 获取手机号的运营商
+     *
      * @param mobile
      * @return
      */
-    public static JuheResponse getMobile(String mobile) {
-        String result = HttpClientUtil.get("http://apis.juhe.cn/mobile/get?phone=" + mobile + "&key=c8836f697b27f0f0ad9ded9cdba95a19").getResult();
+    public static JuheResponse getMobile(String mobile, String key) {
+        String result = HttpClientUtil.get("http://apis.juhe.cn/mobile/get?phone=" + mobile + "&key=" + key).getResult();
         Gson gson = GsonUtil.getGson();
         JuheResponse response = gson.fromJson(result, JuheResponse.class);
         Mobile m = gson.fromJson(gson.toJson(response.getResult()), Mobile.class);
-        System.out.println(response.getResult());
+
         response.setMobile(m);
         return response;
     }
 
-    public static void main(String[] args) {
-        ip("117.82.202.59", "acd6918ff5a3b87ed1119c0df7d61408");
-    }
 }

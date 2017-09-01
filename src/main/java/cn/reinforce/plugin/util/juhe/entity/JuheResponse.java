@@ -1,19 +1,17 @@
 package cn.reinforce.plugin.util.juhe.entity;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class JuheResponse {
 
-	@Expose
 	private int resultcode;
 	
-	@Expose
 	private String reason;
 	
-	@Expose
-	private String error_code;
+	@SerializedName("error_code")
+	private String errorCode;
 	
-	@Expose
 	private Object result;
 
 	private IP ip;
@@ -48,12 +46,12 @@ public class JuheResponse {
 		this.result = result;
 	}
 
-	public String getError_code() {
-		return error_code;
+	public String getErrorCode() {
+		return errorCode;
 	}
 
-	public void setError_code(String error_code) {
-		this.error_code = error_code;
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 
 	public IP getIp() {
