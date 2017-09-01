@@ -44,15 +44,15 @@ public class TimeUtil {
     public static final int T_1D = 24 * 60 * 60 * 1000;
 
 
-    private static String TIME_S_EN = "s";
-    private static String TIME_M_EN = "m";
-    private static String TIME_H_EN = "h";
-    private static String TIME_D_EN = "d";
+    private static final String TIME_S_EN = "s";
+    private static final String TIME_M_EN = "m";
+    private static final String TIME_H_EN = "h";
+    private static final String TIME_D_EN = "d";
 
-    private static String TIME_S_CN = "秒";
-    private static String TIME_M_CN = "分";
-    private static String TIME_H_CN = "时";
-    private static String TIME_D_CN = "天";
+    private static final String TIME_S_CN = "秒";
+    private static final String TIME_M_CN = "分";
+    private static final String TIME_H_CN = "时";
+    private static final String TIME_D_CN = "天";
 
     private TimeUtil() {
         super();
@@ -200,23 +200,23 @@ public class TimeUtil {
         return fromMillis(mi, TIME_S_CN, TIME_M_CN, TIME_H_CN, TIME_D_CN);
     }
 
-    public static String fromMillis(long mi, String S, String M, String H, String D) {
+    public static String fromMillis(long mi, String second, String minite, String hour, String day) {
         if (mi < T_1S) {
-            return "0" + D;
+            return "0" + day;
         }
         if (mi < T_1M) {
-            return mi / T_1S + S;
+            return mi / T_1S + second;
         }
         if (mi < T_1H) {
             long m = mi / T_1M;
-            return m + M + fromMillis(mi - m * T_1M, S, M, H, D);
+            return m + minite + fromMillis(mi - m * T_1M, second, minite, hour, day);
         }
         if (mi < T_1D) {
             long h = mi / T_1H;
-            return h + H + fromMillis(mi - h * T_1H, S, M, H, D);
+            return h + hour + fromMillis(mi - h * T_1H, second, minite, hour, day);
         }
         long d = mi / T_1D;
-        return d + D + fromMillis(mi - d * T_1D, S, M, H, D);
+        return d + day + fromMillis(mi - d * T_1D, second, minite, hour, day);
     }
 
     /**
@@ -232,7 +232,4 @@ public class TimeUtil {
         return age;
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(birthdayToAge(parseDate("1992-01-11", "yyyy-MM-dd")));
-//    }
 }

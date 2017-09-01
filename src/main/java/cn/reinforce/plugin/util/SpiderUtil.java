@@ -13,7 +13,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class SpiderUtil {
-    public static final String[] spider_key = {
+    private static final String[] spider_key = {
             "googlebot",
             "mediapartners-google",
             "feedfetcher-Google",
@@ -68,7 +68,7 @@ public class SpiderUtil {
             "masscan"//Masscan 扫描器
 
     };
-    public static final String[] spider_name = {
+    private static final String[] spider_name = {
             "Google",
             "Google Adsense",
             "Google",
@@ -115,6 +115,10 @@ public class SpiderUtil {
             "YYSpider"
     };
 
+    private SpiderUtil() {
+        super();
+    }
+
     /**
      * 判断是否是蜘蛛来访
      * @param request
@@ -129,7 +133,7 @@ public class SpiderUtil {
             map.put("spiderName","模拟访问");
             return map;
         }
-        int i = 0;
+        int i;
         String spiderName = null;
         for(i=0;i<spider_key.length;i++){
             if(agent.trim().toLowerCase().contains(spider_key[i].toLowerCase()))

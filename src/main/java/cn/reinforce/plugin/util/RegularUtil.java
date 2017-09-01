@@ -14,6 +14,10 @@ import java.util.regex.Pattern;
  */
 public class RegularUtil {
 
+    private RegularUtil() {
+        super();
+    }
+
     /**
      * 判断手机号的格式
      * @param mobile

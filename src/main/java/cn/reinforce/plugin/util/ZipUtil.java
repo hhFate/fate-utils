@@ -69,11 +69,7 @@ public class ZipUtil {
         BufferedInputStream bis = null;
         try {
             bis = new BufferedInputStream(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
-            LOG.error("找不到文件", e);
-        }
-        ZipEntry entry = new ZipEntry(basedir + file.getName());
-        try {
+            ZipEntry entry = new ZipEntry(basedir + file.getName());
             out.putNextEntry(entry);
             int count;
             byte data[] = new byte[BUFFER];
@@ -88,7 +84,6 @@ public class ZipUtil {
                 try {
                     bis.close();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     LOG.error("文件读取失败", e);
                 }
             }

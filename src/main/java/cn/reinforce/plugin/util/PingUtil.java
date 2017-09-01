@@ -105,9 +105,7 @@ public class PingUtil {
 			root = document.getRootElement();
 		} catch (ClientProtocolException e) {
 			LOG.error("网络协议错误", e);
-		} catch (IOException e) {
-			LOG.error("内容读取失败", e);
-		} catch (DocumentException e) {
+		} catch (IOException|DocumentException e) {
 			LOG.error("内容读取失败", e);
 		}
 

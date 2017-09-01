@@ -13,25 +13,29 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GeetestUtil {
 
-    private static Logger LOG = Logger.getLogger(GeetestUtil.class);
+    private static final Logger LOG = Logger.getLogger(GeetestUtil.class);
+
+    private GeetestUtil() {
+        super();
+    }
 
     public static int validate(String captchaId, String privateKey, HttpServletRequest request){
 
-        GeetestLib gtSdk = new GeetestLib(captchaId, privateKey);
+        GeetestLib gtSdk = new GeetestLib(captchaId, privateKey, false);
 
         String challenge = request.getParameter(GeetestLib.fn_geetest_challenge);
         String validate = request.getParameter(GeetestLib.fn_geetest_validate);
         String seccode = request.getParameter(GeetestLib.fn_geetest_seccode);
 
         //从session中获取gt-server状态
-        int gt_server_status_code = (Integer) request.getSession().getAttribute(gtSdk.gtServerStatusSessionKey);
+        int gtServerStatusCode = (Integer) request.getSession().getAttribute(gtSdk.gtServerStatusSessionKey);
 
-        int gtResult = 0;
+        int gtResult;
 
         //从session中获取userid
         String userid = (String)request.getSession().getAttribute("userid");
 
-        if (gt_server_status_code == 1) {
+        if (gtServerStatusCode == 1) {
             //gt-server正常，向gt-server进行二次验证
             gtResult = gtSdk.enhencedValidateRequest(challenge, validate, seccode, userid);
         } else {

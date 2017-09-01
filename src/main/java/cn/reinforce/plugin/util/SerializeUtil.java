@@ -23,30 +23,25 @@ public class SerializeUtil {
 
     public static byte[] serialize(Object object) {
         ObjectOutputStream oos = null;
-        ByteArrayOutputStream baos = null;
         // 序列化
-        baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             oos = new ObjectOutputStream(baos);
             oos.writeObject(object);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
-        byte[] bytes = baos.toByteArray();
-        return bytes;
+        return baos.toByteArray();
     }
 
     public static Object unserialize(byte[] bytes) {
-        ByteArrayInputStream bais = null;
         // 反序列化
-        bais = new ByteArrayInputStream(bytes);
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(bais);
             return ois.readObject();
-        } catch (ClassNotFoundException e) {
-            LOG.error(e.getMessage(), e);
-        } catch (IOException e) {
+        } catch (ClassNotFoundException|IOException e) {
             LOG.error(e.getMessage(), e);
         }
         return null;

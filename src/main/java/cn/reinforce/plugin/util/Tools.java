@@ -1,7 +1,6 @@
 package cn.reinforce.plugin.util;
 
 import cn.reinforce.plugin.util.entity.HttpResult;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -209,14 +207,17 @@ public class Tools {
             response = httpclient.execute(post);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
-        }finally {
+        } finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
                 LOG.error(e.getMessage(), e);
             }
         }
-        HttpEntity responseEntity = response.getEntity();
+        HttpEntity responseEntity = null;
+        if(response!=null){
+            responseEntity = response.getEntity();
+        }
 
         if (responseEntity != null) {
             String submitResult = null;

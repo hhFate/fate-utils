@@ -9,6 +9,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -67,7 +68,7 @@ public class EncryptUtil {
 		if (inputText == null || "".equals(inputText.trim())) {
 			throw new IllegalArgumentException("请输入要加密的内容");
 		}
-		if (algorithmName == null || "".equals(algorithmName.trim())) {
+		if (StringUtils.isEmpty(algorithmName)) {
 			algorithmName = "md5";
 		}
 		String encryptText = null;
@@ -76,9 +77,7 @@ public class EncryptUtil {
 			m.update(inputText.getBytes("UTF8"));
 			byte s[] = m.digest();
 			return hex(s);
-		} catch (NoSuchAlgorithmException e) {
-			LOG.error(e);
-		} catch (UnsupportedEncodingException e) {
+		} catch (NoSuchAlgorithmException|UnsupportedEncodingException e) {
 			LOG.error(e);
 		}
 		return encryptText;

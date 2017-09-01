@@ -25,6 +25,7 @@ public class ObjectUtil {
         oo.close();
         return bytes;
     }
+
     /**byte[]转对象
      * @param bytes
      * @return

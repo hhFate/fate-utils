@@ -8,12 +8,15 @@ import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
+import cn.reinforce.plugin.exception.QRException;
 import com.google.zxing.common.BitMatrix;
+import org.apache.log4j.Logger;
 
 /**
  * 普通二维码生成工具
@@ -23,6 +26,8 @@ import com.google.zxing.common.BitMatrix;
  * @since 1.0.0
  */
 public class QRUtil {
+
+	private static final Logger LOG = Logger.getLogger(QRUtil.class);
 
 	private static final int BLACK = 0xFF000000;
 	private static final int WHITE = 0xFFFFFFFF;
@@ -37,7 +42,6 @@ public class QRUtil {
 
 	private QRUtil() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     public static BufferedImage toBufferedImage(BitMatrix matrix, String logo) {
@@ -51,11 +55,11 @@ public class QRUtil {
 			}
 		}
 		try {
-			if(logo!=null)
+			if(logo!=null){
 				insertImage(image, logo, true);
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new QRException("插入logo失败", e);
 		}
 		return image;
 	}
@@ -71,8 +75,7 @@ public class QRUtil {
 			throws IOException {
 		BufferedImage image = toBufferedImage(matrix, logo);
 		if (!ImageIO.write(image, format, file)) {
-			throw new IOException("Could not write an image of format "
-					+ format + " to " + file);
+			throw new IOException("Could not write an image of format " + format + " to " + file);
 		}
 	}
 
@@ -87,8 +90,7 @@ public class QRUtil {
 			OutputStream stream, String logo) throws IOException {
 		BufferedImage image = toBufferedImage(matrix, logo);
 		if (!ImageIO.write(image, format, stream)) {
-			throw new IOException("Could not write an image of format "
-					+ format);
+			throw new IOException("Could not write an image of format " + format);
 		}
 	}
 
@@ -107,9 +109,8 @@ public class QRUtil {
     public static void insertImage(BufferedImage source, String imgPath,  
             boolean needCompress) throws IOException{  
         File file = new File(imgPath);  
-        if (!file.exists()) {  
-            System.err.println(""+imgPath+"   该文件不存在！");  
-            return;  
+        if (!file.exists()) {
+        	throw new FileNotFoundException(imgPath+"   该文件不存在！");
         }
         
         Image src = ImageIO.read(file);  

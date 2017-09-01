@@ -21,6 +21,7 @@ public class GsonUtil {
 	private final static Gson gson;
 
 	private GsonUtil() {
+		super();
 	}
 
 	static {

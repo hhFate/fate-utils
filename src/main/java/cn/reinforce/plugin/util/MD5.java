@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class MD5 {
 	
-	private static Logger LOG = Logger.getLogger(MD5.class);
+	private static final Logger LOG = Logger.getLogger(MD5.class);
 	
 	private MD5() {}
 

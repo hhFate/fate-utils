@@ -22,20 +22,21 @@ public class MailUtil {
 	 * @return
 	 */
 	public static String getHtml(String mailContent){
-		if(mailContent.indexOf("<!DOCTYPE")!=-1)
+		if(mailContent.indexOf("<!DOCTYPE")!=-1){
 			mailContent = mailContent.substring(mailContent.indexOf("<!DOCTYPE"));
-		else if(mailContent.indexOf("<!doctype")!=-1)
+		} else if(mailContent.indexOf("<!doctype")!=-1){
 			mailContent = mailContent.substring(mailContent.indexOf("<!doctype"));
-		else if(mailContent.indexOf("<html>")!=-1)
+		} else if(mailContent.indexOf("<html>")!=-1){
 			mailContent= mailContent.substring(mailContent.indexOf("<html>"));
-		else if(mailContent.indexOf("<div")!=-1){
+		} else if(mailContent.indexOf("<div")!=-1){
 			mailContent= mailContent.substring(mailContent.indexOf("<div"));
 			mailContent = "<html><body>"+mailContent+"</body></html>";
 		}else if(mailContent.indexOf("<p")!=-1){
 			mailContent= mailContent.substring(mailContent.indexOf("<p"));
-		}
-		else
+		} else{
 			return "";
+		}
+
 		return mailContent;
 	}
 	

@@ -9,6 +9,10 @@ package cn.reinforce.plugin.util;
  */
 public class TokenUtil {
 
+    private TokenUtil() {
+        super();
+    }
+
     private static String[] src = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
     /**
@@ -19,8 +23,8 @@ public class TokenUtil {
      * @return
      */
     public static String getRandomString(int length, int type) {
-        String code = "";
-        int range = 0;
+        StringBuilder code = new StringBuilder();
+        int range;
         switch (type) {
             case 1:
                 range = 10;
@@ -36,9 +40,9 @@ public class TokenUtil {
                 break;
         }
         for (int i = 0; i < length; i++) {
-            code += src[(int) (Math.random() * range)];
+            code.append(src[(int) (Math.random() * range)]);
         }
-        return code;
+        return code.toString();
     }
 
 }

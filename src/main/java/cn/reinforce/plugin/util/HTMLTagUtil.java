@@ -29,24 +29,21 @@ public class HTMLTagUtil{
 		String space = "(\r?\n(\\s*\r?\n)+)";
 		String white = "&nbsp;";
 
-		Pattern p_script = Pattern.compile(script,
-				Pattern.CASE_INSENSITIVE);
-		Matcher m_script = p_script.matcher(htmlStr);
-		htmlStr = m_script.replaceAll(""); // 过滤script标签
+		Pattern pScript = Pattern.compile(script, Pattern.CASE_INSENSITIVE);
+		Matcher mScript = pScript.matcher(htmlStr);
+		htmlStr = mScript.replaceAll(""); // 过滤script标签
 
-		Pattern p_style = Pattern
-				.compile(style, Pattern.CASE_INSENSITIVE);
-		Matcher m_style = p_style.matcher(htmlStr);
-		htmlStr = m_style.replaceAll(""); // 过滤style标签
+		Pattern pStyle = Pattern.compile(style, Pattern.CASE_INSENSITIVE);
+		Matcher mStyle = pStyle.matcher(htmlStr);
+		htmlStr = mStyle.replaceAll(""); // 过滤style标签
 
-		Pattern p_html = Pattern.compile(html, Pattern.CASE_INSENSITIVE);
-		Matcher m_html = p_html.matcher(htmlStr);
-		htmlStr = m_html.replaceAll(""); // 过滤html标签
+		Pattern pHtml = Pattern.compile(html, Pattern.CASE_INSENSITIVE);
+		Matcher mHtml = pHtml.matcher(htmlStr);
+		htmlStr = mHtml.replaceAll(""); // 过滤html标签
 
-		Pattern p_space = Pattern
-				.compile(space, Pattern.CASE_INSENSITIVE);
-		Matcher m_space = p_space.matcher(htmlStr);
-		htmlStr = m_space.replaceAll("");// 过滤空白数据
+		Pattern pSpace = Pattern.compile(space, Pattern.CASE_INSENSITIVE);
+		Matcher mSpace = pSpace.matcher(htmlStr);
+		htmlStr = mSpace.replaceAll("");// 过滤空白数据
 
 		htmlStr = htmlStr.replaceAll(white, "");// 过滤&nbsp;
 

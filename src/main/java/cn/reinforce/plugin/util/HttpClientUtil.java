@@ -247,7 +247,7 @@ public class HttpClientUtil {
         try {
             submitResult = EntityUtils.toString(responseEntity, ENCODE);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             return null;
         }
         HttpResult result = new HttpResult();
@@ -256,9 +256,4 @@ public class HttpClientUtil {
         return result;
     }
 
-//	public static void main(String[] args) {
-//		List<NameValuePair> data = new ArrayList<>();
-//		data.add(new BasicNameValuePair("carNum","123"));
-//		System.out.println(post("http://211.144.68.101/tractorService.do",data));
-//	}
 }
