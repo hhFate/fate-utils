@@ -1,4 +1,4 @@
-package cn.reinforce.plugin.util.echarts;
+package cn.reinforce.plugin.echarts;
 
 import java.util.ArrayList;
 import java.util.List;
