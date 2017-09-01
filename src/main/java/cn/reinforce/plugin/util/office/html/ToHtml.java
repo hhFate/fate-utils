@@ -85,7 +85,7 @@ public class ToHtml {
 
     @SuppressWarnings({"unchecked"})
     private static <K, V> Map<K, V> mapFor(Object... mapping) {
-        Map<K, V> map = new HashMap<K, V>();
+        Map<K, V> map = new HashMap<>();
         for (int i = 0; i < mapping.length; i += 2) {
             map.put((K) mapping[i], (V) mapping[i + 1]);
         }
@@ -126,8 +126,7 @@ public class ToHtml {
      * @param output Where the HTML output will be written.
      * @return An object for converting the workbook to HTML.
      */
-    public static ToHtml create(InputStream in, Appendable output)
-            throws IOException {
+    public static ToHtml create(InputStream in, Appendable output) throws IOException {
         try {
             Workbook wb = WorkbookFactory.create(in);
             return create(wb, output);
@@ -165,16 +164,16 @@ public class ToHtml {
      * @param args The command line arguments.
      * @throws Exception Exception we don't recover from.
      */
-    public static void main(String[] args) throws Exception {
-        if (args.length < 2) {
-            System.err.println("usage: ToHtml inputWorkbook outputHtmlFile");
-            return;
-        }
-
-        ToHtml toHtml = create(args[0], new PrintWriter(new FileWriter(args[1])));
-        toHtml.setCompleteHTML(true);
-        toHtml.printPage();
-    }
+//    public static void main(String[] args) throws Exception {
+//        if (args.length < 2) {
+//            System.err.println("usage: ToHtml inputWorkbook outputHtmlFile");
+//            return;
+//        }
+//
+//        ToHtml toHtml = create(args[0], new PrintWriter(new FileWriter(args[1])));
+//        toHtml.setCompleteHTML(true);
+//        toHtml.printPage();
+//    }
 
     public void setCompleteHTML(boolean completeHTML) {
         this.completeHTML = completeHTML;
@@ -214,7 +213,6 @@ public class ToHtml {
     }
 
     private void printInlineStyle() {
-        //out.format("<link href=\"excelStyle.css\" rel=\"stylesheet\" type=\"text/css\">%n");
         out.format("<style type=\"text/css\">%n");
         printStyles();
         out.format("</style>%n");
@@ -232,8 +230,7 @@ public class ToHtml {
         // First, copy the base css
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new InputStreamReader(
-                    getClass().getResourceAsStream("excelStyle.css")));
+            in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("excelStyle.css")));
             String line;
             while ((line = in.readLine()) != null) {
                 out.format("%s%n", line);
@@ -245,7 +242,7 @@ public class ToHtml {
         }
 
         // now add css for each used style
-        Set<CellStyle> seen = new HashSet<CellStyle>();
+        Set<CellStyle> seen = new HashSet<>();
         for (int i = 0; i < wb.getNumberOfSheets(); i++) {
             Sheet sheet = wb.getSheetAt(i);
             Iterator<Row> rows = sheet.rowIterator();
@@ -264,7 +261,6 @@ public class ToHtml {
 
     private void printStyle(CellStyle style) {
         out.format(".%s .%s {%n", DEFAULTS_CLASS, styleName(style));
-        styleContents(style);
         out.format("}%n");
     }
 

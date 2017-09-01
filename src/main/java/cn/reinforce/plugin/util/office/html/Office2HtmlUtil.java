@@ -18,6 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -41,22 +42,20 @@ import java.util.List;
  * @create 2017/3/30
  */
 public class Office2HtmlUtil {
+
+    private Office2HtmlUtil() {
+        super();
+    }
+
     //word 转 html
-    public static void word2Html(String fileName, HttpServletResponse response)
-            throws TransformerException, IOException,
-            ParserConfigurationException {
+    public static void word2Html(String fileName, HttpServletResponse response) throws Exception{
 
         HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(fileName));
-//        HWPFDocumentCore documentCore = WordToHtmlUtils.loadDoc(new FileInputStream(fileName));
         //兼容2007 以上版本
-//        XSSFWorkbook xssfwork=new XSSFWorkbook(new FileInputStream(fileName));
         WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(
-                DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                        .newDocument());
+                DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument());
         wordToHtmlConverter.setPicturesManager(new PicturesManager() {
-            public String savePicture(byte[] content,
-                                      PictureType pictureType, String suggestedName,
-                                      float widthInches, float heightInches) {
+            public String savePicture(byte[] content, PictureType pictureType, String suggestedName, float widthInches, float heightInches) {
                 return "test/" + suggestedName;
             }
         });
@@ -66,13 +65,7 @@ public class Office2HtmlUtil {
         if (pics != null) {
             for (int i = 0; i < pics.size(); i++) {
                 Picture pic = (Picture) pics.get(i);
-                System.out.println();
-                try {
-                    pic.writeImageContent(new FileOutputStream("D:/test/"
-                            + pic.suggestFullFileName()));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                pic.writeImageContent(new FileOutputStream("D:/test/" + pic.suggestFullFileName()));
             }
         }
         Document htmlDocument = wordToHtmlConverter.getDocument();
@@ -94,18 +87,14 @@ public class Office2HtmlUtil {
     }
 
 
-    public static void excel2Html(String fileName, HttpServletResponse response)
-            throws TransformerException, IOException,
-            ParserConfigurationException {
+    public static void excel2Html(String fileName, HttpServletResponse response) throws Exception {
 
         ToHtml toHtml = ToHtml.create(fileName, new PrintWriter(response.getOutputStream()));
         toHtml.setCompleteHTML(true);
         toHtml.printPage();
     }
 
-    public static void excel2Html2(String fileName, HttpServletResponse response)
-            throws TransformerException, IOException,
-            ParserConfigurationException {
+    public static void excel2Html2(String fileName, HttpServletResponse response) throws Exception{
 
         InputStream input = new FileInputStream(fileName);
         HSSFWorkbook excelBook = new HSSFWorkbook(input);
@@ -115,12 +104,21 @@ public class Office2HtmlUtil {
         if (pics != null) {
             for (int i = 0; i < pics.size(); i++) {
                 HSSFPictureData pic = pics.get(i);
+                FileOutputStream fos = null;
                 try {
                     File file = new File("D:/test/" + pic.suggestFileExtension());
-                    FileOutputStream fos = new FileOutputStream(file);
+                    fos = new FileOutputStream(file);
                     fos.write(pic.getData());
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException("文件打开异常");
+                }finally {
+                    if(fos!=null){
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
@@ -163,7 +161,6 @@ public class Office2HtmlUtil {
             } while (slidenum != -1 && slidenum != slide.getSlideNumber());
 
             String title = slide.getTitle();
-            System.out.println("Rendering slide " + slide.getSlideNumber() + (title == null ? "" : ": " + title));
             BufferedImage img = new BufferedImage(width, height, 1);
             Graphics2D graphics = img.createGraphics();
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -176,10 +173,8 @@ public class Office2HtmlUtil {
             slide.draw(graphics);
             String fname = fileName.replaceAll("\\.ppt", "-" + slide.getSlideNumber() + ".png");
             filenames.add(fname);
-//            FileOutputStream out = new FileOutputStream(fname);
             ImageIO.write(img, "png", response.getOutputStream());
             response.getOutputStream().flush();
-//            out.close();
             if(!i$.hasNext()){
                 break;
             }

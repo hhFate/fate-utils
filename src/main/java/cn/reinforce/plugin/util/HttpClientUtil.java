@@ -39,7 +39,9 @@ import java.util.Map;
  */
 public class HttpClientUtil {
 
-    private static Logger LOG = Logger.getLogger(HttpClientUtil.class);
+    private static final Logger LOG = Logger.getLogger(HttpClientUtil.class);
+
+    private static final String ENCODE = "UTF-8";
 
     private HttpClientUtil() {
         super();
@@ -50,22 +52,19 @@ public class HttpClientUtil {
         HttpPost post = new HttpPost(url);
 
         try {
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(data, "UTF-8");
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(data, ENCODE);
             post.setEntity(entity);
             return getResult(httpclient.execute(post));
 
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         return null;
@@ -99,18 +98,16 @@ public class HttpClientUtil {
         HttpResponse response = null;
         try {
             response = client.execute(post);
-            String submitResult = EntityUtils.toString(response.getEntity(), "UTF-8");
+            String submitResult = EntityUtils.toString(response.getEntity(), ENCODE);
 
             return submitResult;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 client.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         return null;
@@ -126,14 +123,12 @@ public class HttpClientUtil {
             return getResult(httpclient.execute(get));
 
         } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
 
@@ -146,18 +141,16 @@ public class HttpClientUtil {
         HttpPut put = new HttpPut(url);
 
         try {
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(data, "UTF-8");
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(data, ENCODE);
             put.setEntity(entity);
             return getResult(httpclient.execute(put));
         } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
 
@@ -174,14 +167,12 @@ public class HttpClientUtil {
             return getResult(httpclient.execute(delete));
 
         }catch (IOException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         return null;
@@ -224,27 +215,22 @@ public class HttpClientUtil {
             }
 
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    LOG.error(e.getMessage(), e);
                 }
             }
         }
@@ -259,7 +245,7 @@ public class HttpClientUtil {
         }
         String submitResult = null;
         try {
-            submitResult = EntityUtils.toString(responseEntity, "UTF-8");
+            submitResult = EntityUtils.toString(responseEntity, ENCODE);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

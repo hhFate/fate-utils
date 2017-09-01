@@ -4,13 +4,13 @@ import cn.reinforce.plugin.util.entity.HttpResult;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -27,9 +27,15 @@ import java.util.List;
  */
 public class Tools {
 
+    private static final Logger LOG = Logger.getLogger(Tools.class);
+
     private static final String[] numberUpper = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
     private static final String[] number = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
     private static final String[] unit = {"元", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿"};
+
+    private Tools() {
+        super();
+    }
 
     /**
      * int型强转时设置默认值
@@ -66,7 +72,7 @@ public class Tools {
     }
 
     public static long parseLong(String src) {
-        return parseLong(src, 0l);
+        return parseLong(src, 0L);
     }
 
     public static double parseDouble(String src, double def) {
@@ -190,61 +196,41 @@ public class Tools {
         String url = "http://data.zz.baidu.com/" + action + "?site=" + site + "&token=" + token + (original ? "&type=original" : "");
         HttpPost post = new HttpPost(url);
 
+        StringEntity entity = null;
         try {
-            StringEntity entity = new StringEntity(urls);
-            post.setEntity(entity);
-            post.addHeader("Content-Type", "text/html;charset=UTF-8");
-            CloseableHttpResponse response = httpclient.execute(post);
-            HttpEntity responseEntity = response.getEntity();
-
-            if (responseEntity != null) {
-                String submitResult = EntityUtils.toString(responseEntity, "UTF-8");
-                System.out.println(submitResult);
-                HttpResult result = new HttpResult();
-                result.setStatusCode(response.getStatusLine().getStatusCode());
-                result.setResult(submitResult);
-            }
-
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            entity = new StringEntity(urls);
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error("编码错误", e);
+        }
+        post.setEntity(entity);
+        post.addHeader("Content-Type", "text/html;charset=UTF-8");
+        CloseableHttpResponse response = null;
+        try {
+            response = httpclient.execute(post);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
+            LOG.error(e.getMessage(), e);
+        }finally {
             try {
                 httpclient.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
-    }
+        HttpEntity responseEntity = response.getEntity();
 
-	public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("白");
-        list.add("新");
-        list.add("旧");
-
-        Collections.sort(
-                list,
-                (a, b) -> {
-                    try {
-                        return Hex.encodeHexString(a.getBytes("gb2312")).compareTo(
-                                Hex.encodeHexString(b.getBytes("gb2312")));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    return 0;
-                });
-        for(String s:list){
-            System.out.println(s);
+        if (responseEntity != null) {
+            String submitResult = null;
+            try {
+                submitResult = EntityUtils.toString(responseEntity, "UTF-8");
+            } catch (IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
+            HttpResult result = new HttpResult();
+            result.setStatusCode(response.getStatusLine().getStatusCode());
+            result.setResult(submitResult);
         }
+
     }
+
 
 }
