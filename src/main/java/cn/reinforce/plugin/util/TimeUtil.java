@@ -21,23 +21,6 @@ public class TimeUtil {
 
     private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-    private static final String[] _MMM = new String[]{"Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-    };
-
-    private static final long MS_DAY = 3600L * 24 * 1000;
-    private static final long MS_WEEK = MS_DAY * 7;
-
     public static final int T_1S = 1000;
     public static final int T_1M = 60 * 1000;
     public static final int T_1H = 60 * 60 * 1000;
@@ -132,14 +115,12 @@ public class TimeUtil {
 
     /**
      * 将一个时间格式化成容易被人类阅读的格式
-     * <p>
-     * <pre>
-     * 如果 1 分钟内，打印 Just Now
+     *
+     * 如果 1 分钟内，打印 刚刚
      * 如果 1 小时内，打印多少分钟
      * 如果 1 天之内，打印多少小时之前
      * 如果是今年之内，打印月份和日期
      * 否则打印月份和年
-     * </pre>
      *
      * @param d
      * @return
@@ -171,14 +152,12 @@ public class TimeUtil {
 
         c.setTime(d);
         int yy = c.get(Calendar.YEAR);
-        int mm = c.get(Calendar.MONTH);
         if (thisYear == yy) {
-            int dd = c.get(Calendar.DAY_OF_MONTH);
-            return String.format("%s %d", _MMM[mm], dd);
+            return formatDate(d, "MM月dd日");
         }
 
         // 否则打印月份和年
-        return String.format("%s %d", _MMM[mm], yy);
+        return formatDate(d, "yyyy年MM月");
     }
 
 
