@@ -146,18 +146,14 @@ public class TimeUtil {
             return Long.toString(ms / (24 * 3600000)) + "天前";
         }
 
-        // 如果是今年之内，打印月份和日期
+        // 如果是今年之内，打印月份和日期，否则打印月份和年
         Calendar c = Calendar.getInstance();
         int thisYear = c.get(Calendar.YEAR);
 
         c.setTime(d);
         int yy = c.get(Calendar.YEAR);
-        if (thisYear == yy) {
-            return formatDate(d, "MM月dd日");
-        }
 
-        // 否则打印月份和年
-        return formatDate(d, "yyyy年MM月");
+        return thisYear == yy ? formatDate(d, "MM月dd日") : formatDate(d, "yyyy年MM月");
     }
 
 
