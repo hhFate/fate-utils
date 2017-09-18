@@ -184,10 +184,10 @@ public class Tools {
     /**
      * 主动提交网址到百度
      *
-     * @param urls
-     * @param site
-     * @param token
-     * @param original
+     * @param urls 要提交的url
+     * @param site 网站地址
+     * @param token 百度的token
+     * @param original 是否原创
      */
     public static void baiduUrls(String urls, String site, String action, String token, boolean original) {
         CloseableHttpClient httpclient = HttpClients.createDefault();
