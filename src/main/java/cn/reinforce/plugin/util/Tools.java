@@ -95,7 +95,7 @@ public class Tools {
         List<String> list = new ArrayList<>();
         for (String s : src) {
             if (!StringUtils.isEmpty(s)) {
-                list.add(s);
+                list.add(s.trim());
             }
         }
         return list;
@@ -105,7 +105,7 @@ public class Tools {
         List<Integer> list = new ArrayList<>();
         for (String s : src) {
             if (s != null && !"".equals(s)) {
-                list.add(Integer.parseInt(s));
+                list.add(Integer.parseInt(s.trim()));
             }
         }
         return list;
