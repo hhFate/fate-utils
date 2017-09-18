@@ -199,7 +199,6 @@ public class OSSUtil {
     public static PutObjectResult byteUpload(String bucketName, byte[] file, String folder, String filename) {
         filename = folder + filename;
         PutObjectResult result = null;
-        filename = folder + filename;
         result = Aliyun.INSTANCE.getOSSClient().putObject(bucketName, filename, new ByteArrayInputStream(file));
         return result;
     }
