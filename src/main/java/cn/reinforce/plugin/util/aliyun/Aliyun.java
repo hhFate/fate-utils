@@ -91,7 +91,7 @@ public enum Aliyun {
         this.ossBucket = ossBucket;
         this.ossUrl = ossUrl;
         this.ossNet = ossNet;
-        this.ossEndpoint = ossRegion + (ossNet==2?"-internal":"") + ".aliyuncs.com";
+        this.ossEndpoint = "oss-" + ossRegion + (ossNet==2?"-internal":"") + ".aliyuncs.com";
         ossClient = new OSSClient("http://" + ossEndpoint, accessKeyId, accessKeySecret, conf);
     }
 

@@ -475,4 +475,8 @@ public class OSSUtil {
         }
         return false;
     }
+
+    public static String regionToEndpoint(String region, boolean internal){
+        return "oss-"+region+(internal?"-internal":"")+".aliyuncs.com";
+    }
 }
