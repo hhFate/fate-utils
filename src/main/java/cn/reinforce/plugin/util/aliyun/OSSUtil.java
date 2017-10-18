@@ -111,18 +111,14 @@ public class OSSUtil {
      * @param folder
      * @return
      */
-    public static PutObjectResult simpleUpload(String bucketName, MultipartFile clientFile, String folder, String filename) {
+    public static PutObjectResult simpleUpload(String bucketName, MultipartFile clientFile, String folder, String filename) throws IOException {
         String key = folder + filename;
         PutObjectResult result = null;
-        try {
-            InputStream content = clientFile.getInputStream();
-            ObjectMetadata meta = new ObjectMetadata();
-            meta.setContentLength(clientFile.getSize());
+        InputStream content = clientFile.getInputStream();
+        ObjectMetadata meta = new ObjectMetadata();
+        meta.setContentLength(clientFile.getSize());
 //            meta.setContentType(clientFile.getContentType());
-            result = Aliyun.INSTANCE.getOSSClient().putObject(bucketName, key, content, meta);// 会自动关闭流？
-        } catch (IOException e) {
-            LOG.error(e);
-        }
+        result = Aliyun.INSTANCE.getOSSClient().putObject(bucketName, key, content, meta);// 会自动关闭流？
         return result;
     }
 
@@ -147,6 +143,7 @@ public class OSSUtil {
 
     /**
      * 直接上传文件流
+     *
      * @param bucketName
      * @param is
      * @param folder
@@ -337,6 +334,7 @@ public class OSSUtil {
 
     /**
      * 列举分片
+     *
      * @param key
      * @param uploadId
      * @return
@@ -358,7 +356,7 @@ public class OSSUtil {
 
     public static String generatePresignedUrl(String bucket, String ossUrl, String key, Date expiration) {
         String url = Aliyun.INSTANCE.getOSSClient().generatePresignedUrl(bucket, key, expiration).toString();
-        if (!StringUtils.isEmpty(ossUrl)){
+        if (!StringUtils.isEmpty(ossUrl)) {
             url = url.replace(bucket + "." + Aliyun.INSTANCE.getOssEndpoint(), ossUrl);
         }
         return url;
@@ -377,6 +375,7 @@ public class OSSUtil {
 
     /**
      * 新建文件夹
+     *
      * @param folderName
      * @param parentFolder
      */
@@ -387,6 +386,7 @@ public class OSSUtil {
 
     /**
      * 列举上传事件
+     *
      * @return
      */
     public static MultipartUploadListing listMultipartUploads(String bucket) {
@@ -419,8 +419,6 @@ public class OSSUtil {
         ObjectListing list = getList(bucket, dir);
         return list.getObjectSummaries().size();
     }
-
-
 
 
     /**
@@ -477,7 +475,11 @@ public class OSSUtil {
         return false;
     }
 
-    public static String regionToEndpoint(String region, boolean internal){
-        return "oss-"+region+(internal?"-internal":"")+".aliyuncs.com";
+    public static String regionToEndpoint(String region, boolean internal) {
+        return "oss-" + region + (internal ? "-internal" : "") + ".aliyuncs.com";
+    }
+
+    public static String getUrl(String region, String ossUrl, String bucket, boolean ssl) {
+        return (ssl ? "https://" : "http://") + (StringUtils.isEmpty(ossUrl) ? bucket + ".oss." + region + ".aliyuncs.com" : ossUrl) + "/";
     }
 }

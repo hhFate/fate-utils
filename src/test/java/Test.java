@@ -1,4 +1,8 @@
+import cn.reinforce.plugin.util.HttpClientUtil;
+
 import java.text.DecimalFormat;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author 幻幻Fate
@@ -16,8 +20,15 @@ public class Test {
 //        data.add(new BasicNameValuePair("timestamp", "1507603621000"));
 //        HttpResult result = HttpClientUtil.post("http://rc-juhe.reinforce.cn/smsCode", data);
 //        System.out.println(result);
-
-        DecimalFormat df = new DecimalFormat("00000");
-        System.out.println(df.format(1));
+        Map<String, String> parameters = new LinkedHashMap<>();
+        parameters.put("file_path", "F:\\麦卡软件\\日志填写细则.xls");
+        parameters.put("appKey", "P36CldLCizUQbbc");
+        parameters.put("sign", "75f0b3a48e9a0dec901cf182a48db5d0");
+        parameters.put("timestamp", "1507603621000");
+        parameters.put("ossBucket", "fate-fms");
+        parameters.put("ossUrl", "");
+        parameters.put("folder", "");
+        parameters.put("filename", "日志填写细则.xls");
+        System.out.println(HttpClientUtil.multipartRequest("http://192.168.1.78:772/upload", parameters));
     }
 }
