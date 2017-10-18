@@ -28,6 +28,7 @@ import com.aliyun.oss.model.PutObjectResult;
 import com.aliyun.oss.model.StorageClass;
 import com.aliyun.oss.model.UploadPartRequest;
 import com.aliyun.oss.model.UploadPartResult;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -327,8 +328,8 @@ public class OSSUtil {
      * @param uploadId
      */
 
-    public static void abortMultipartUpload(String filename, String uploadId) {
-        AbortMultipartUploadRequest abortMultipartUploadRequest = new AbortMultipartUploadRequest(Aliyun.INSTANCE.getOssBucket(), filename, uploadId);
+    public static void abortMultipartUpload(String bucket, String filename, String uploadId) {
+        AbortMultipartUploadRequest abortMultipartUploadRequest = new AbortMultipartUploadRequest(bucket, filename, uploadId);
 
         // 取消分块上传
         Aliyun.INSTANCE.getOSSClient().abortMultipartUpload(abortMultipartUploadRequest);
@@ -340,8 +341,8 @@ public class OSSUtil {
      * @param uploadId
      * @return
      */
-    public static List<PartSummary> listParts(String key, String uploadId) {
-        ListPartsRequest listPartsRequest = new ListPartsRequest(Aliyun.INSTANCE.getOssBucket(), key, uploadId);
+    public static List<PartSummary> listParts(String bucket, String key, String uploadId) {
+        ListPartsRequest listPartsRequest = new ListPartsRequest(bucket, key, uploadId);
         // 每页100个分片
 //        listPartsRequest.setMaxParts(100);
         PartListing partListing;
@@ -355,10 +356,10 @@ public class OSSUtil {
     }
 
 
-    public static String generatePresignedUrl(String key, Date expiration) {
-        String url = Aliyun.INSTANCE.getOSSClient().generatePresignedUrl(Aliyun.INSTANCE.getOssBucket(), key, expiration).toString();
-        if (Aliyun.INSTANCE.getOssUrl() != null){
-            url = url.replace(Aliyun.INSTANCE.getOssBucket() + "." + Aliyun.INSTANCE.getOssEndpoint(), Aliyun.INSTANCE.getOssUrl());
+    public static String generatePresignedUrl(String bucket, String ossUrl, String key, Date expiration) {
+        String url = Aliyun.INSTANCE.getOSSClient().generatePresignedUrl(bucket, key, expiration).toString();
+        if (!StringUtils.isEmpty(ossUrl)){
+            url = url.replace(bucket + "." + Aliyun.INSTANCE.getOssEndpoint(), ossUrl);
         }
         return url;
     }
@@ -369,9 +370,9 @@ public class OSSUtil {
      * @param key
      * @throws UnsupportedEncodingException
      */
-    public static void deleteObject(String key) throws UnsupportedEncodingException {
+    public static void deleteObject(String bucket, String key) throws UnsupportedEncodingException {
         // 删除Object
-        Aliyun.INSTANCE.getOSSClient().deleteObject(Aliyun.INSTANCE.getOssBucket(), key);
+        Aliyun.INSTANCE.getOSSClient().deleteObject(bucket, key);
     }
 
     /**
@@ -379,26 +380,26 @@ public class OSSUtil {
      * @param folderName
      * @param parentFolder
      */
-    public static void createFolder(String folderName, String parentFolder) {
+    public static void createFolder(String bucket, String folderName, String parentFolder) {
         String keySuffixWithSlash = parentFolder + folderName + "/";
-        Aliyun.INSTANCE.getOSSClient().putObject(Aliyun.INSTANCE.getOssBucket(), keySuffixWithSlash, new ByteArrayInputStream(new byte[0]));
+        Aliyun.INSTANCE.getOSSClient().putObject(bucket, keySuffixWithSlash, new ByteArrayInputStream(new byte[0]));
     }
 
     /**
      * 列举上传事件
      * @return
      */
-    public static MultipartUploadListing listMultipartUploads() {
-        ListMultipartUploadsRequest listMultipartUploadsRequest = new ListMultipartUploadsRequest(Aliyun.INSTANCE.getOssBucket());
+    public static MultipartUploadListing listMultipartUploads(String bucket) {
+        ListMultipartUploadsRequest listMultipartUploadsRequest = new ListMultipartUploadsRequest(bucket);
         return Aliyun.INSTANCE.getOSSClient().listMultipartUploads(listMultipartUploadsRequest);
     }
 
 
-    public static ObjectListing getList(String dir) {
+    public static ObjectListing getList(String bucket, String dir) {
 //		if(dir.equals(""))
 //			dir="/";
         // 构造ListObjectsRequest请求
-        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(Aliyun.INSTANCE.getOssBucket());
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucket);
 
         // "/" 为文件夹的分隔符
         listObjectsRequest.setDelimiter("/");
@@ -414,8 +415,8 @@ public class OSSUtil {
     }
 
 
-    public static int count(String dir) {
-        ObjectListing list = getList(dir);
+    public static int count(String bucket, String dir) {
+        ObjectListing list = getList(bucket, dir);
         return list.getObjectSummaries().size();
     }
 
@@ -426,11 +427,11 @@ public class OSSUtil {
      * 将所有OSS中的文件下载到本地，切换存储模式的时候用
      */
 
-    public static void downloadAll() {
-        ObjectListing objectListing = getList("/");
+    public static void downloadAll(String bucket) {
+        ObjectListing objectListing = getList(bucket, "/");
         for (OSSObjectSummary objectSummary : objectListing.getObjectSummaries()) {
             // 新建GetObjectRequest
-            GetObjectRequest getObjectRequest = new GetObjectRequest(Aliyun.INSTANCE.getOssBucket(), objectSummary.getKey());
+            GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, objectSummary.getKey());
 
             // 下载Object到文件
             ObjectMetadata objectMetadata = Aliyun.INSTANCE.getOSSClient().getObject(getObjectRequest, new File("D:/" + objectSummary.getKey()));
@@ -439,38 +440,38 @@ public class OSSUtil {
     }
 
 
-    public static void copyObject(String srcKey, String destKey) {
+    public static void copyObject(String bucket, String srcKey, String destKey) {
         // 拷贝Object
-        CopyObjectResult result = Aliyun.INSTANCE.getOSSClient().copyObject(Aliyun.INSTANCE.getOssBucket(), srcKey, Aliyun.INSTANCE.getOssBucket(), destKey);
+        CopyObjectResult result = Aliyun.INSTANCE.getOSSClient().copyObject(bucket, srcKey, bucket, destKey);
 
         // 打印结果
         System.out.println("ETag: " + result.getETag() + " LastModified: " + result.getLastModified());
     }
 
 
-    public static void setReferer(String referer, boolean allowEmptyReferer) {
+    public static void setReferer(String bucket, String referer, boolean allowEmptyReferer) {
         List<String> refererList = new ArrayList<>();
         String[] referers = referer.split("\n");
         for (String s : referers) {
             refererList.add(s);
         }
         BucketReferer bucketReferer = new BucketReferer(allowEmptyReferer, refererList);
-        Aliyun.INSTANCE.getOSSClient().setBucketReferer(Aliyun.INSTANCE.getOssBucket(), bucketReferer);
+        Aliyun.INSTANCE.getOSSClient().setBucketReferer(bucket, bucketReferer);
     }
 
 
-    public static List<String> getReferer() {
+    public static List<String> getReferer(String bucket) {
         if (Aliyun.INSTANCE.getOSSClient() != null) {
-            BucketReferer bucketReferer = Aliyun.INSTANCE.getOSSClient().getBucketReferer(Aliyun.INSTANCE.getOssBucket());
+            BucketReferer bucketReferer = Aliyun.INSTANCE.getOSSClient().getBucketReferer(bucket);
             return bucketReferer.getRefererList();
         }
         return null;
     }
 
 
-    public static boolean isAllowEmptyReferer() {
+    public static boolean isAllowEmptyReferer(String bucket) {
         if (Aliyun.INSTANCE.getOSSClient() != null) {
-            BucketReferer bucketReferer = Aliyun.INSTANCE.getOSSClient().getBucketReferer(Aliyun.INSTANCE.getOssBucket());
+            BucketReferer bucketReferer = Aliyun.INSTANCE.getOSSClient().getBucketReferer(bucket);
             return bucketReferer.isAllowEmptyReferer();
         }
         return false;

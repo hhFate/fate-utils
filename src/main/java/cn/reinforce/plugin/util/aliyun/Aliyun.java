@@ -47,12 +47,9 @@ public enum Aliyun {
     private String accessKeySecret;
 
     //OSS部分
-    private String ossUrl;
-    private String ossBucket;
     private String ossRegion;
     private int ossNet;
     private String ossEndpoint;
-    private OSSClient ossClient;
 
 
     // open search
@@ -83,16 +80,19 @@ public enum Aliyun {
      * @param ossUrl      CName的URL
      * @param ossBucket   bucket
      */
-    public void initOSS(String ossRegion, int ossNet, String ossUrl, String ossBucket) {
+    public void initOSS(String ossRegion, int ossNet) {
+
+        this.ossNet = ossNet;
+        this.ossEndpoint = "http://oss-" + ossRegion + (ossNet==2?"-internal":"") + ".aliyuncs.com";
+    }
+
+    public OSSClient getOSSClient(){
+
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(5000);
         conf.setMaxErrorRetry(10);
 //        conf.setSupportCname(true);
-        this.ossBucket = ossBucket;
-        this.ossUrl = ossUrl;
-        this.ossNet = ossNet;
-        this.ossEndpoint = "oss-" + ossRegion + (ossNet==2?"-internal":"") + ".aliyuncs.com";
-        ossClient = new OSSClient("http://" + ossEndpoint, accessKeyId, accessKeySecret, conf);
+        return new OSSClient(ossEndpoint, accessKeyId, accessKeySecret, conf);
     }
 
     /**
@@ -121,10 +121,6 @@ public enum Aliyun {
         } catch (ClientException e) {
             e.printStackTrace();
         }
-    }
-
-    public OSSClient getOSSClient() {
-        return ossClient;
     }
 
     public OpenSearchClient getOpenSearchClient() {
@@ -214,14 +210,6 @@ public enum Aliyun {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public String getOssUrl() {
-        return ossUrl;
-    }
-
-    public String getOssBucket() {
-        return ossBucket;
     }
 
     public String getOssEndpoint() {
