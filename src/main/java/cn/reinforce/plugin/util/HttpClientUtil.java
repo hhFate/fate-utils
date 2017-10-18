@@ -13,11 +13,13 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -75,8 +77,9 @@ public class HttpClientUtil {
      */
     public static String multipartRequest(String url, Map<String, String> parameters) {
         MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+        ContentType contentType = ContentType.create(HTTP.PLAIN_TEXT_TYPE, HTTP.UTF_8);
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            multipartEntity.addTextBody(entry.getKey(), entry.getValue());
+            multipartEntity.addTextBody(entry.getKey(), entry.getValue(), contentType);
         }
         // Now write the image
         String fullFilePath = parameters.get("file_path");
@@ -84,16 +87,10 @@ public class HttpClientUtil {
             multipartEntity.addPart("uploadFile", new FileBody(new File(fullFilePath)));
         }
 
-        HttpPost request = new HttpPost(url);
-        request.setEntity(multipartEntity.build());
-        request.addHeader("Accept", "*/*");
-        request.addHeader("Content-Type", "multipart/form-data; boundary=--------------------"
-                + Long.toString(System.currentTimeMillis(), 16));
-        request.addHeader("Connection", "Keep-Alive");
-        request.addHeader("Cache-Control", "no-cache");
-
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(url);
+
+
         post.setEntity(multipartEntity.build());
         HttpResponse response = null;
         try {
