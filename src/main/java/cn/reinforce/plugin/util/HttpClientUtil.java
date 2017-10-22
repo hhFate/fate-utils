@@ -23,6 +23,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import javax.servlet.http.Cookie;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,11 +50,23 @@ public class HttpClientUtil {
         super();
     }
 
-    public static HttpResult post(String url, List<NameValuePair> data) {
+    public static HttpResult post(String url, List<NameValuePair> data, List<Cookie> cookies) {
+        StringBuffer tmpcookies = new StringBuffer();
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                tmpcookies.append(c.getName()+"="+c.getValue() + ";");
+            }
+        }
+        return post(url, data, tmpcookies.toString());
+    }
+
+    public static HttpResult post(String url, List<NameValuePair> data, String cookie) {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
 
         try {
+            post.setHeader("cookie", cookie);
+            post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(data, ENCODE);
             post.setEntity(entity);
             return getResult(httpclient.execute(post));

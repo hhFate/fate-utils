@@ -45,7 +45,7 @@ public class ChatUtil {
 		pairs.add(new BasicNameValuePair("desc", desc));
 		pairs.add(new BasicNameValuePair("parent", parent));
 		pairs.add(new BasicNameValuePair("appSecret", appSecret));
-		String result = HttpClientUtil.post(endpoint+"op/syn/dept", pairs).getResult();
+		String result = HttpClientUtil.post(endpoint+"op/syn/dept", pairs, "").getResult();
 		Gson gson = GsonUtil.getGson();
 		return gson.fromJson(result, CommonResponse.class);
 	}
@@ -78,7 +78,7 @@ public class ChatUtil {
 		pairs.add(new BasicNameValuePair("headIcon", headIcon));
 		pairs.add(new BasicNameValuePair("department", department));
 		pairs.add(new BasicNameValuePair("appSecret", appSecret));
-		String result = HttpClientUtil.post(endpoint+"op/syn/user", pairs).getResult();
+		String result = HttpClientUtil.post(endpoint+"op/syn/user", pairs, "").getResult();
 		Gson gson = GsonUtil.getGson();
 		return gson.fromJson(result, CommonResponse.class);
 	}
@@ -153,7 +153,7 @@ public class ChatUtil {
 		pair.add(new BasicNameValuePair("members", members));
 		pair.add(new BasicNameValuePair("thirdId", thirdId));
 		pair.add(new BasicNameValuePair("appSecret", appSecret));
-		HttpResult result = HttpClientUtil.post(endpoint+"/op/syn/group/", pair);
+		HttpResult result = HttpClientUtil.post(endpoint+"/op/syn/group/", pair, "");
 		Gson gson = GsonUtil.getGson();
 		return gson.fromJson(result.getResult(), CommonResponse.class);
 	}
@@ -163,7 +163,7 @@ public class ChatUtil {
 		pair.add(new BasicNameValuePair("synId", uid));
 		pair.add(new BasicNameValuePair("thirdId", thirdId));
 		pair.add(new BasicNameValuePair("appSecret", appSecret));
-		HttpResult result = HttpClientUtil.post(endpoint+"/op/syn/group/user", pair);
+		HttpResult result = HttpClientUtil.post(endpoint+"/op/syn/group/user", pair, "");
 		Gson gson = GsonUtil.getGson();
 		return gson.fromJson(result.getResult(), CommonResponse.class);
 	}
@@ -172,7 +172,7 @@ public class ChatUtil {
 		List<NameValuePair> pair = new ArrayList<>();
 		pair.add(new BasicNameValuePair("synIds", synIds));
 		pair.add(new BasicNameValuePair("appSecret", appSecret));
-		HttpResult result = HttpClientUtil.post(endpoint+"/op/syn/users/state", pair);
+		HttpResult result = HttpClientUtil.post(endpoint+"/op/syn/users/state", pair, "");
 		return result.getResult();
 	}
 }

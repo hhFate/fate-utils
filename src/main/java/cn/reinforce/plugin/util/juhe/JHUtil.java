@@ -45,7 +45,7 @@ public class JHUtil {
         pair.add(new BasicNameValuePair("tpl_value", tplValue));
         pair.add(new BasicNameValuePair("key", key));
 
-        String result = HttpClientUtil.post("http://v.juhe.cn/sms/send", pair).getResult();
+        String result = HttpClientUtil.post("http://v.juhe.cn/sms/send", pair, "").getResult();
         Gson gson = new Gson();
         JuheResponse response = gson.fromJson(result, JuheResponse.class);
 
@@ -108,7 +108,7 @@ public class JHUtil {
         List<NameValuePair> pair = new ArrayList<>();
         pair.add(new BasicNameValuePair("ip", ip));
         pair.add(new BasicNameValuePair("key", key));
-        String result = HttpClientUtil.post("http://v.juhe.cn/weather/ip", pair).getResult();
+        String result = HttpClientUtil.post("http://v.juhe.cn/weather/ip", pair, "").getResult();
         Gson gson = new Gson();
         JuheResponse response = gson.fromJson(result, JuheResponse.class);
 
