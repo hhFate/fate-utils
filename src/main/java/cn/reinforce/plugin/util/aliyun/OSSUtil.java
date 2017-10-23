@@ -480,6 +480,6 @@ public class OSSUtil {
     }
 
     public static String getUrl(String region, String ossUrl, String bucket, boolean ssl) {
-        return (ssl ? "https://" : "http://") + (StringUtils.isEmpty(ossUrl) ? bucket + ".oss." + region + ".aliyuncs.com" : ossUrl) + "/";
+        return (ssl ? "https://" : "http://") + (StringUtils.isEmpty(ossUrl) ? bucket + "." + region + ".aliyuncs.com" : ossUrl) + "/";
     }
 }

@@ -1,4 +1,5 @@
 import cn.reinforce.plugin.util.HttpClientUtil;
+import cn.reinforce.plugin.util.Tools;
 import cn.reinforce.plugin.util.entity.HttpResult;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,11 +37,13 @@ public class Test {
 //        parameters.put("folder", "");
 //        parameters.put("filename", "日语日常用语总结.pdf");
 
-        List<Cookie> cookies = new ArrayList<>();
-        cookies.add(new Cookie("UM_distinctid", "15e695e7d47d7-0fed0d503119c7-5d4e211f-1fa400-15e695e7d48f7"));
-        cookies.add(new Cookie("CNZZDATA30088308", "cnzz_eid%3D1084275154-1505013811-%26ntime%3D1508667004"));
-        cookies.add(new Cookie("fly-layui", "s%3AmAXHpRLIhEMcEBvdsWjt3P_K7aFNC3T2.qhl%2B4uWOUM37qLagw5V%2FDdFrrVgRZU4LRRxe7eNOPQ4"));
+//        List<Cookie> cookies = new ArrayList<>();
+//        cookies.add(new Cookie("UM_distinctid", "15e695e7d47d7-0fed0d503119c7-5d4e211f-1fa400-15e695e7d48f7"));
+//        cookies.add(new Cookie("CNZZDATA30088308", "cnzz_eid%3D1084275154-1505013811-%26ntime%3D1508667004"));
+//        cookies.add(new Cookie("fly-layui", "s%3AmAXHpRLIhEMcEBvdsWjt3P_K7aFNC3T2.qhl%2B4uWOUM37qLagw5V%2FDdFrrVgRZU4LRRxe7eNOPQ4"));
+//
+//        System.out.println(HttpClientUtil.post("http://fly.layui.com/sign/in", data, cookies));
 
-        System.out.println(HttpClientUtil.post("http://fly.layui.com/sign/in", data, cookies));
+        System.out.println(Tools.parseDouble("0.01"));
     }
 }
