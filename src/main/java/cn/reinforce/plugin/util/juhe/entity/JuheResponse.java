@@ -22,6 +22,8 @@ public class JuheResponse {
 
 	private Mobile mobile;
 
+	private IDCard idCard;
+
 	public int getResultcode() {
 		return resultcode;
 	}
@@ -84,5 +86,13 @@ public class JuheResponse {
 
 	public void setMobile(Mobile mobile) {
 		this.mobile = mobile;
+	}
+
+	public IDCard getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(IDCard idCard) {
+		this.idCard = idCard;
 	}
 }

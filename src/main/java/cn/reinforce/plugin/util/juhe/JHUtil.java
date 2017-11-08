@@ -2,12 +2,14 @@ package cn.reinforce.plugin.util.juhe;
 
 import cn.reinforce.plugin.util.GsonUtil;
 import cn.reinforce.plugin.util.HttpClientUtil;
+import cn.reinforce.plugin.util.juhe.entity.IDCard;
 import cn.reinforce.plugin.util.juhe.entity.IP;
 import cn.reinforce.plugin.util.juhe.entity.JuheResponse;
 import cn.reinforce.plugin.util.juhe.entity.Mobile;
 import cn.reinforce.plugin.util.juhe.entity.Sms;
 import cn.reinforce.plugin.util.juhe.entity.Weather;
 import com.google.gson.Gson;
+import com.sun.mail.imap.protocol.ID;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
@@ -170,6 +172,17 @@ public class JHUtil {
         Mobile m = gson.fromJson(gson.toJson(response.getResult()), Mobile.class);
 
         response.setMobile(m);
+        return response;
+    }
+
+    public static JuheResponse checkIdCard(String idCard, String realName, String key) {
+        String result = HttpClientUtil.get("http://op.juhe.cn/idcard/query?idcard=" + idCard + "&realname=" + realName + "&key=" + key).getResult();
+        System.out.println(result);
+        Gson gson = GsonUtil.getGson();
+        JuheResponse response = gson.fromJson(result, JuheResponse.class);
+        IDCard id = gson.fromJson(gson.toJson(response.getResult()), IDCard.class);
+
+        response.setIdCard(id);
         return response;
     }
 
