@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -58,6 +59,29 @@ public class HttpClientUtil {
             }
         }
         return post(url, data, tmpcookies.toString());
+    }
+
+    public static HttpResult postByEntity(String url, StringEntity stringEntity) {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
+
+        try {
+            post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+            post.setEntity(stringEntity);
+            return getResult(httpclient.execute(post));
+
+        } catch (UnsupportedEncodingException e) {
+            LOG.error(e.getMessage(), e);
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
+        return null;
     }
 
     public static HttpResult post(String url, List<NameValuePair> data, String cookie) {

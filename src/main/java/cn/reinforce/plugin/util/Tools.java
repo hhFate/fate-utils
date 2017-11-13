@@ -1,19 +1,9 @@
 package cn.reinforce.plugin.util;
 
-import cn.reinforce.plugin.util.entity.HttpResult;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,59 +168,6 @@ public class Tools {
             }
         }
         return isMoblie;
-    }
-
-
-    /**
-     * 主动提交网址到百度
-     *
-     * @param urls 要提交的url
-     * @param site 网站地址
-     * @param token 百度的token
-     * @param original 是否原创
-     */
-    public static void baiduUrls(String urls, String site, String action, String token, boolean original) {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        String url = "http://data.zz.baidu.com/" + action + "?site=" + site + "&token=" + token + (original ? "&type=original" : "");
-        HttpPost post = new HttpPost(url);
-
-        StringEntity entity = null;
-        try {
-            entity = new StringEntity(urls);
-        } catch (UnsupportedEncodingException e) {
-            LOG.error("编码错误", e);
-        }
-        post.setEntity(entity);
-        post.addHeader("Content-Type", "text/html;charset=UTF-8");
-        CloseableHttpResponse response = null;
-        try {
-            response = httpclient.execute(post);
-        } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
-        } finally {
-            try {
-                httpclient.close();
-            } catch (IOException e) {
-                LOG.error(e.getMessage(), e);
-            }
-        }
-        HttpEntity responseEntity = null;
-        if(response!=null){
-            responseEntity = response.getEntity();
-        }
-
-        if (responseEntity != null) {
-            String submitResult = null;
-            try {
-                submitResult = EntityUtils.toString(responseEntity, "UTF-8");
-            } catch (IOException e) {
-                LOG.error(e.getMessage(), e);
-            }
-            HttpResult result = new HttpResult();
-            result.setStatusCode(response.getStatusLine().getStatusCode());
-            result.setResult(submitResult);
-        }
-
     }
 
 
