@@ -15,11 +15,8 @@ import org.w3c.dom.Document;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -48,7 +45,7 @@ public class Office2HtmlUtil {
     }
 
     //word 转 html
-    public static void word2Html(String fileName, HttpServletResponse response) throws Exception{
+    public static void word2Html(String fileName, HttpServletResponse response) throws Exception {
 
         HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(fileName));
         //兼容2007 以上版本
@@ -94,7 +91,7 @@ public class Office2HtmlUtil {
         toHtml.printPage();
     }
 
-    public static void excel2Html2(String fileName, HttpServletResponse response) throws Exception{
+    public static void excel2Html2(String fileName, HttpServletResponse response) throws Exception {
 
         InputStream input = new FileInputStream(fileName);
         HSSFWorkbook excelBook = new HSSFWorkbook(input);
@@ -111,8 +108,8 @@ public class Office2HtmlUtil {
                     fos.write(pic.getData());
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException("文件打开异常");
-                }finally {
-                    if(fos!=null){
+                } finally {
+                    if (fos != null) {
                         try {
                             fos.close();
                         } catch (IOException e) {
@@ -150,15 +147,14 @@ public class Office2HtmlUtil {
         int height = (int) ((float) pgsize.height * scale);
         Iterator i$ = ppt.getSlides().iterator();
         List<String> filenames = new ArrayList<>();
+        HSLFSlide slide;
         while (true) {
-            HSLFSlide slide;
-            do {
-                if (!i$.hasNext()) {
-                    return;
-                }
 
-                slide = (HSLFSlide) i$.next();
-            } while (slidenum != -1 && slidenum != slide.getSlideNumber());
+            if (!i$.hasNext()) {
+                return;
+            }
+
+            slide = (HSLFSlide) i$.next();
 
             String title = slide.getTitle();
             BufferedImage img = new BufferedImage(width, height, 1);
@@ -173,12 +169,19 @@ public class Office2HtmlUtil {
             slide.draw(graphics);
             String fname = fileName.replaceAll("\\.ppt", "-" + slide.getSlideNumber() + ".png");
             filenames.add(fname);
-            ImageIO.write(img, "png", response.getOutputStream());
-            response.getOutputStream().flush();
-            if(!i$.hasNext()){
+            ImageIO.write(img, "png", new FileOutputStream(fname));
+
+            if (!i$.hasNext()) {
                 break;
             }
         }
 
+        StringBuilder sb = new StringBuilder();
+        for(String name:filenames){
+            sb.append("<img src='"+name+"'>");
+        }
+        PrintWriter pw = response.getWriter();
+        pw.write(sb.toString());
+        pw.flush();
     }
 }

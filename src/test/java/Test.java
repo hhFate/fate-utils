@@ -1,11 +1,20 @@
 import cn.reinforce.plugin.util.HttpClientUtil;
+import cn.reinforce.plugin.util.MD5;
 import cn.reinforce.plugin.util.TokenUtil;
 import cn.reinforce.plugin.util.Tools;
 import cn.reinforce.plugin.util.entity.HttpResult;
+import cn.reinforce.plugin.util.juhe.JHUtil;
+import cn.reinforce.plugin.util.juhe.entity.JuheResponse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import javax.servlet.http.Cookie;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,7 +30,7 @@ public class Test {
 
     public static void main(String[] args) {
 
-        List<NameValuePair> data = new ArrayList<>();
+//        List<NameValuePair> data = new ArrayList<>();
 //        data.add(new BasicNameValuePair("content", "大大说的"));
 //        data.add(new BasicNameValuePair("appKey", "P36CldLCizUQbbc"));
 //        data.add(new BasicNameValuePair("sign", "75f0b3a48e9a0dec901cf182a48db5d0"));
@@ -48,6 +57,49 @@ public class Test {
 
 //        System.out.println(Tools.parseDouble("0.01"));
 
-        System.out.println(TokenUtil.getRandomString(32, 2));
+//        System.out.println(TokenUtil.getRandomString(32, 2));
+
+//        LOG.info("-----------Fly社区签到-----------");
+
+        int delay = 0;
+
+        try {
+            Thread.sleep(delay * 60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        List<NameValuePair> data = new ArrayList<>();
+        List<Cookie> cookies = new ArrayList<>();
+//        cookies.add(new Cookie("UM_distinctid", "15e5f549f079e6-0d1722e589bcb-8383667-1aeaa0-15e5f549f0883d"));
+//        cookies.add(new Cookie("CNZZDATA30088308", "cnzz_eid%3D1084275154-1505013811-%26ntime%3D1508667004"));
+        cookies.add(new Cookie("fly-layui", "s%3AoNIIKp0upVKOPhKnTut7bLnRzB_e2Q3P.wBppbbFfThxEYfx0EGc2x7c4xCPVvOu1LU6FIFy5Fb0"));
+
+        HttpResult result = HttpClientUtil.post("http://fly.layui.com/sign/status", data, cookies);
+
+        System.out.println(result);
+
+        JSONObject r = new JSONObject(result.getResult());
+
+        if(r.has("msg")){
+            //发送通知短信
+            JuheResponse response = JHUtil.sendCommonSms("17306187352", null, "03abf4264d5bc4b5bf7f927857b85b2f", 56310);
+            System.out.println(response.getReason());
+            return;
+        }
+
+        JSONObject d = r.getJSONObject("data");
+        boolean signed = d.getBoolean("signed");
+        if(!signed){
+            String token = d.getString("token");
+            data.add(new BasicNameValuePair("token", StringUtils.isEmpty(token)?"1":token));
+            try {
+                Thread.sleep(delay * 3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(HttpClientUtil.post("http://fly.layui.com/sign/in", data, cookies));
+        }
+
     }
 }

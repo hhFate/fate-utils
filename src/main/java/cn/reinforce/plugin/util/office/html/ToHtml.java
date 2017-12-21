@@ -187,7 +187,7 @@ public class ToHtml {
                         "<!DOCTYPE html>%n");
                 out.format("<html>%n");
                 out.format("<head>%n");
-                out.format("<meta charset=\"GBK\">%n");
+                out.format("<meta charset=\"UTF-8\">%n");
                 this.printInlineStyle();
                 out.format("</head>%n");
                 out.format("<body>%n");
@@ -230,7 +230,7 @@ public class ToHtml {
         // First, copy the base css
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("excelStyle.css")));
+            in = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("excelStyle.css")));
             String line;
             while ((line = in.readLine()) != null) {
                 out.format("%s%n", line);
