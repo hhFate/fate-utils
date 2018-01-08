@@ -480,14 +480,13 @@ public class OSSUtil {
     }
 
     /**
-     *
      * @param region OSS所在区域， 比如：oss-cn-hangzhou
      * @param ossUrl OSS绑定的域名
      * @param bucket
-     * @param ssl 是否使用ssl
+     * @param ssl    是否使用ssl
      * @return
      */
     public static String getUrl(String region, String ossUrl, String bucket, boolean ssl) {
-        return (ssl ? "https://" : "http://") + (StringUtils.isEmpty(ossUrl) ? bucket + "." + region + ".aliyuncs.com" : ossUrl) + "/";
+        return (ssl ? "https://" : "http://") + (StringUtils.isEmpty(ossUrl) ? bucket + ".oss-" + region + ".aliyuncs.com" : ossUrl) + "/";
     }
 }
