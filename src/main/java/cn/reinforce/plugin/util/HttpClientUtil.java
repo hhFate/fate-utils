@@ -272,7 +272,7 @@ public class HttpClientUtil {
         return newUrl;
     }
 
-    private static HttpResult getResult(CloseableHttpResponse response) {
+    public static HttpResult getResult(CloseableHttpResponse response) {
         HttpEntity responseEntity = response.getEntity();
         if (responseEntity == null) {
             return null;
