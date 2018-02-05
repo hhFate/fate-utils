@@ -67,6 +67,8 @@ public class Line {
 
         private MarkLine markLine;
 
+        private boolean showAllSymbol;
+
         public String getName() {
             return name;
         }
@@ -138,6 +140,14 @@ public class Line {
         public void setLabel(Label label) {
             this.label = label;
         }
+
+        public boolean isShowAllSymbol() {
+            return showAllSymbol;
+        }
+
+        public void setShowAllSymbol(boolean showAllSymbol) {
+            this.showAllSymbol = showAllSymbol;
+        }
     }
 
     public class AreaStyle {
@@ -189,7 +199,9 @@ public class Line {
     public class MarkLineData {
         private String type;
 
-        private int yAxis;
+        private String xAxis;
+
+        private String yAxis;
 
         private String name;
 
@@ -201,11 +213,19 @@ public class Line {
             this.type = type;
         }
 
-        public int getyAxis() {
+        public String getxAxis() {
+            return xAxis;
+        }
+
+        public void setxAxis(String xAxis) {
+            this.xAxis = xAxis;
+        }
+
+        public String getyAxis() {
             return yAxis;
         }
 
-        public void setyAxis(int yAxis) {
+        public void setyAxis(String yAxis) {
             this.yAxis = yAxis;
         }
 
@@ -214,6 +234,13 @@ public class Line {
         }
 
         public void setName(String name) {
+            this.name = name;
+        }
+
+        public MarkLineData(String type, String xAxis, String yAxis, String name) {
+            this.type = type;
+            this.xAxis = xAxis;
+            this.yAxis = yAxis;
             this.name = name;
         }
     }
