@@ -24,7 +24,8 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -40,8 +41,7 @@ import java.util.Map;
  */
 public enum Aliyun {
     INSTANCE;
-
-    private final Logger LOG = Logger.getLogger(Aliyun.class);
+    private static final Logger LOG = LogManager.getLogger(Aliyun.class.getName());
 
     private String accessKeyId;
     private String accessKeySecret;
@@ -76,9 +76,8 @@ public enum Aliyun {
     /**
      * 初始化OSS配置
      *
-     * @param endpoint    OSS地址
-     * @param ossUrl      CName的URL
-     * @param ossBucket   bucket
+     * @param ossRegion    OSS地址
+     * @param ossNet
      */
     public void initOSS(String ossRegion, int ossNet) {
 

@@ -22,7 +22,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.Cookie;
 import java.io.File;
@@ -43,7 +44,7 @@ import java.util.Map;
  */
 public class HttpClientUtil {
 
-    private static final Logger LOG = Logger.getLogger(HttpClientUtil.class);
+    private static final Logger LOG = LogManager.getLogger(HttpClientUtil.class.getName());
 
     private static final String ENCODE = "UTF-8";
 
@@ -53,9 +54,9 @@ public class HttpClientUtil {
 
     public static HttpResult post(String url, List<NameValuePair> data, List<Cookie> cookies) {
         StringBuffer tmpcookies = new StringBuffer();
-        if(cookies!=null){
+        if (cookies != null) {
             for (Cookie c : cookies) {
-                tmpcookies.append(c.getName()+"="+c.getValue() + ";");
+                tmpcookies.append(c.getName() + "=" + c.getValue() + ";");
             }
         }
         return post(url, data, tmpcookies.toString());
@@ -200,7 +201,7 @@ public class HttpClientUtil {
             delete.addHeader("Content-Type", "text/html;charset=UTF-8");
             return getResult(httpclient.execute(delete));
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         } finally {
             try {

@@ -29,7 +29,8 @@ import com.aliyun.oss.model.StorageClass;
 import com.aliyun.oss.model.UploadPartRequest;
 import com.aliyun.oss.model.UploadPartResult;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -55,7 +56,7 @@ import java.util.List;
  */
 public class OSSUtil {
 
-    private final static Logger LOG = Logger.getLogger(OSSUtil.class);
+    private static final Logger LOG = LogManager.getLogger(OSSUtil.class.getName());
 
     // 设置每块为 500K
     private static final long PART_SIZE1 = 1024L * 500;
@@ -178,7 +179,9 @@ public class OSSUtil {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
             while (true) {
                 String line = reader.readLine();
-                if (line == null) break;
+                if (line == null){
+                    break;
+                }
                 writer.write(line);
             }
             content.close();

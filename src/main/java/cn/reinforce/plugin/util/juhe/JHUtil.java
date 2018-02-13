@@ -9,10 +9,8 @@ import cn.reinforce.plugin.util.juhe.entity.Mobile;
 import cn.reinforce.plugin.util.juhe.entity.Sms;
 import cn.reinforce.plugin.util.juhe.entity.Weather;
 import com.google.gson.Gson;
-import com.sun.mail.imap.protocol.ID;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 
 import java.util.ArrayList;

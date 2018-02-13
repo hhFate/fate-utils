@@ -1,7 +1,8 @@
 package cn.reinforce.plugin.util;
 
 import com.mortennobel.imagescaling.ResampleOp;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
@@ -44,7 +45,7 @@ public class ImageUtil {
     public static final String IMAGE_TYPE_BMP = "bmp";// 英文Bitmap（位图）的简写，它是Windows操作系统中的标准图像文件格式
     public static final String IMAGE_TYPE_PNG = "png";// 可移植网络图形
     public static final String IMAGE_TYPE_PSD = "psd";// Photoshop的专用格式Photoshop
-    private static final Logger LOG = Logger.getLogger(ImageUtil.class);
+    private static final Logger LOG = LogManager.getLogger(ImageUtil.class.getName());
 
     private ImageUtil() {
         super();

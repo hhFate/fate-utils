@@ -1,7 +1,8 @@
 package cn.reinforce.plugin.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class Tools {
 
-    private static final Logger LOG = Logger.getLogger(Tools.class);
+    private static final Logger LOG = LogManager.getLogger(Tools.class.getName());
 
     private static final String[] numberUpper = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
     private static final String[] number = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};

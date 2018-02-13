@@ -1,6 +1,7 @@
 package cn.reinforce.plugin.util;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 public class TimeUtil {
 
-    private static final Logger LOG = Logger.getLogger(TimeUtil.class);
+    private static final Logger LOG = LogManager.getLogger(TimeUtil.class.getName());
 
     private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
 
@@ -115,7 +116,7 @@ public class TimeUtil {
 
     /**
      * 将一个时间格式化成容易被人类阅读的格式
-     *
+     * <p>
      * 如果 1 分钟内，打印 刚刚
      * 如果 1 小时内，打印多少分钟
      * 如果 1 天之内，打印多少小时之前

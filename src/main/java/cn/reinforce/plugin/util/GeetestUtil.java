@@ -1,7 +1,8 @@
 package cn.reinforce.plugin.util;
 
 import cn.reinforce.plugin.util.entity.GeetestLib;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GeetestUtil {
 
-    private static final Logger LOG = Logger.getLogger(GeetestUtil.class);
+    private static final Logger LOG = LogManager.getLogger(GeetestUtil.class.getName());
 
     private GeetestUtil() {
         super();

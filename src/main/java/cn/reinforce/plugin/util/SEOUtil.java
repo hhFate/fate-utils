@@ -1,9 +1,9 @@
 package cn.reinforce.plugin.util;
 
 import cn.reinforce.plugin.util.entity.HttpResult;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.entity.StringEntity;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
 
@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class SEOUtil {
 
-    private static final Logger LOG = Logger.getLogger(SEOUtil.class);
+    private static final Logger LOG = LogManager.getLogger(SEOUtil.class.getName());
 
     private SEOUtil() {
         super();

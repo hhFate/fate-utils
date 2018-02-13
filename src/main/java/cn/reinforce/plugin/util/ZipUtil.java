@@ -1,11 +1,11 @@
 package cn.reinforce.plugin.util;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.CRC32;
@@ -15,7 +15,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipUtil {
 
-    private static final Logger LOG = Logger.getLogger(ZipUtil.class);
+    private static final Logger LOG = LogManager.getLogger(ZipUtil.class.getName());
     static final int BUFFER = 8192;
 
     private ZipUtil() {
@@ -34,7 +34,7 @@ public class ZipUtil {
         out.close();
     }
 
-    private static void compress(File file, ZipOutputStream out, String basedir) {  
+    private static void compress(File file, ZipOutputStream out, String basedir) {
         /* 判断是目录还是文件 */
         if (file.isDirectory()) {
             LOG.info("压缩：" + basedir + file.getName());
@@ -53,7 +53,7 @@ public class ZipUtil {
             return;
 
         File[] files = dir.listFiles();
-        for (int i = 0; i < files.length; i++) {  
+        for (int i = 0; i < files.length; i++) {
             /* 递归 */
             compress(files[i], out, basedir + dir.getName() + "/");
         }
@@ -79,7 +79,7 @@ public class ZipUtil {
             bis.close();
         } catch (IOException e) {
             LOG.error("文件读取失败", e);
-        }finally {
+        } finally {
             if (bis != null) {
                 try {
                     bis.close();
