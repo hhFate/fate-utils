@@ -1,7 +1,7 @@
 package cn.reinforce.plugin.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -15,7 +15,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipUtil {
 
-    private static final Logger LOG = LogManager.getLogger(ZipUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(ZipUtil.class.getName());
     static final int BUFFER = 8192;
 
     private ZipUtil() {

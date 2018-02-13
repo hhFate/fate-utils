@@ -2,8 +2,8 @@ package cn.reinforce.plugin.util;
 
 import cn.reinforce.plugin.exception.QRException;
 import com.google.zxing.common.BitMatrix;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,7 +23,7 @@ import java.io.OutputStream;
  */
 public class QRUtil {
 
-    private static final Logger LOG = LogManager.getLogger(QRUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(QRUtil.class.getName());
 
     private static final int BLACK = 0xFF000000;
     private static final int WHITE = 0xFFFFFFFF;

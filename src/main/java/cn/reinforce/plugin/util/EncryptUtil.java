@@ -2,8 +2,8 @@ package cn.reinforce.plugin.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class EncryptUtil {
 
-    private static final Logger LOG = LogManager.getLogger(EncryptUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(EncryptUtil.class.getName());
 
     private static final String HMAC_SHA1 = "HmacSHA1";
 
@@ -78,7 +78,7 @@ public class EncryptUtil {
             byte s[] = m.digest();
             return hex(s);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            LOG.error(e);
+            LOG.error("加密失败", e);
         }
         return encryptText;
     }

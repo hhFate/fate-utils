@@ -24,8 +24,8 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public enum Aliyun {
     INSTANCE;
-    private static final Logger LOG = LogManager.getLogger(Aliyun.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(Aliyun.class.getName());
 
     private String accessKeyId;
     private String accessKeySecret;

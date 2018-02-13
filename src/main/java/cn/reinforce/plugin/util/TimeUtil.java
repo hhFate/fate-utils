@@ -1,7 +1,7 @@
 package cn.reinforce.plugin.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class TimeUtil {
 
-    private static final Logger LOG = LogManager.getLogger(TimeUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TimeUtil.class.getName());
 
     private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
 

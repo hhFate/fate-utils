@@ -1,7 +1,7 @@
 package cn.reinforce.plugin.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class FriendLinkUtil {
 
-    private static final Logger LOG = LogManager.getLogger(FriendLinkUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(FriendLinkUtil.class.getName());
 
     private FriendLinkUtil() {
         super();

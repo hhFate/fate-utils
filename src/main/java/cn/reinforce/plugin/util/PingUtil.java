@@ -8,8 +8,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -26,7 +26,7 @@ import java.io.IOException;
  */
 public class PingUtil {
 
-    private static final Logger LOG = LogManager.getLogger(PingUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(PingUtil.class.getName());
 
 
     private PingUtil() {

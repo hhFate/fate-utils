@@ -1,8 +1,8 @@
 package cn.reinforce.plugin.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,7 +21,7 @@ import java.security.MessageDigest;
  */
 public class MD5 {
 
-    private static final Logger LOG = LogManager.getLogger(MD5.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(MD5.class.getName());
 
     private MD5() {
     }
@@ -52,10 +52,11 @@ public class MD5 {
             md5.update(byteBuffer);
             BigInteger bi = new BigInteger(1, md5.digest());
             value = bi.toString(16);
-            while (value.length() < 32)
+            while (value.length() < 32){
                 value = "0" + value;
+            }
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("MD5加密失败", e);
         }
         return value == null ? null : value.toUpperCase();
     }

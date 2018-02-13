@@ -1,7 +1,7 @@
 package cn.reinforce.plugin.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,7 +16,7 @@ import java.io.ObjectOutputStream;
  */
 public class SerializeUtil {
 
-    private static final Logger LOG = LogManager.getLogger(SerializeUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SerializeUtil.class.getName());
 
     private SerializeUtil() {
         super();
