@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
@@ -49,14 +50,19 @@ public class TimeUtil {
      * @param pattern 默认格式yyyy-MM-dd HH:mm:ss
      * @return
      */
-    public static String formatDate(Date date, String pattern) {
+    public static String formatDate(Date date, String pattern, TimeZone timeZone) {
         SimpleDateFormat sdf;
         if (pattern != null) {
             sdf = new SimpleDateFormat(pattern);
         } else {
             sdf = new SimpleDateFormat(PATTERN);
         }
+        sdf.setTimeZone(timeZone);
         return sdf.format(date);
+    }
+
+    public static String formatDate(Date date, String pattern) {
+        return formatDate(date, pattern, TimeZone.getTimeZone("GMT+8"));
     }
 
     public static String formatDate(Date date) {
